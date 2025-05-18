@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.member.MemberLevelPoMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.member.MemberLevelPo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="level" column="level" jdbcType="INTEGER"/>
+            <result property="minPoint" column="min_point" jdbcType="INTEGER"/>
+            <result property="maxPoint" column="max_point" jdbcType="INTEGER"/>
+            <result property="discount" column="discount" jdbcType="DECIMAL"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="privileges" column="privileges" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tenant_id,name,
+        code,level,min_point,
+        max_point,discount,icon,
+        description,privileges,status,
+        remark,version,created_at,
+        updated_at
+    </sql>
+</mapper>
