@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.RoleDeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.RoleDeptPO">
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="version" property="version"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_id, dept_id, version, created_at, updated_at
+    </sql>
+
+    <!-- 根据ID查询角色部门关联 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_dept
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据角色ID查询角色部门关联列表 -->
+    <select id="selectListByRoleId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_dept
+        WHERE role_id = #{roleId}
+    </select>
+
+    <!-- 根据部门ID查询角色部门关联列表 -->
+    <select id="selectListByDeptId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_dept
+        WHERE dept_id = #{deptId}
+    </select>
+
+    <!-- 新增角色部门关联 -->
+    <insert id="insert" parameterType="com.ecoshop.dao.po.sys.RoleDeptPO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_role_dept (
+            role_id, dept_id, version
+        ) VALUES (
+            #{roleId}, #{deptId}, 1
+        )
+    </insert>
+
+    <!-- 批量新增角色部门关联 -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO sys_role_dept (
+            role_id, dept_id, version
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleId}, #{item.deptId}, 1)
+        </foreach>
+    </insert>
+
+    <!-- 根据角色ID删除角色部门关联 -->
+    <delete id="deleteByRoleId">
+        DELETE FROM sys_role_dept WHERE role_id = #{roleId}
+    </delete>
+
+    <!-- 根据部门ID删除角色部门关联 -->
+    <delete id="deleteByDeptId">
+        DELETE FROM sys_role_dept WHERE dept_id = #{deptId}
+    </delete>
+
+    <!-- 删除角色部门关联 -->
+    <delete id="deleteById">
+        DELETE FROM sys_role_dept WHERE id = #{id}
+    </delete>
+
+</mapper> 

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.DictDataMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.DictDataPO">
+        <id column="id" property="id"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="label" property="label"/>
+        <result column="value" property="value"/>
+        <result column="sort" property="sort"/>
+        <result column="css_class" property="cssClass"/>
+        <result column="list_class" property="listClass"/>
+        <result column="is_default" property="isDefault"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="version" property="version"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, tenant_id, dict_type, label, value, sort, css_class, list_class, is_default, status, remark, version, created_at, updated_at
+    </sql>
+
+    <!-- 根据ID查询字典数据 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_dict_data
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据字典类型查询字典数据列表 -->
+    <select id="selectListByDictType" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_dict_data
+        WHERE dict_type = #{dictType}
+        ORDER BY sort ASC
+    </select>
+
+    <!-- 查询字典数据列表 -->
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_dict_data
+        <where>
+            <if test="tenantId != null">
+                AND tenant_id = #{tenantId}
+            </if>
+            <if test="dictType != null and dictType != ''">
+                AND dict_type = #{dictType}
+            </if>
+            <if test="label != null and label != ''">
+                AND label LIKE CONCAT('%', #{label}, '%')
+            </if>
+            <if test="value != null and value != ''">
+                AND value = #{value}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY sort ASC
+    </select>
+
+    <!-- 新增字典数据 -->
+    <insert id="insert" parameterType="com.ecoshop.dao.po.sys.DictDataPO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_dict_data (
+            tenant_id, dict_type, label, value, sort, css_class, list_class, is_default, status, remark, version
+        ) VALUES (
+            #{tenantId}, #{dictType}, #{label}, #{value}, #{sort}, #{cssClass}, #{listClass}, #{isDefault}, #{status}, #{remark}, 1
+        )
+    </insert>
+
+    <!-- 修改字典数据 -->
+    <update id="update" parameterType="com.ecoshop.dao.po.sys.DictDataPO">
+        UPDATE sys_dict_data
+        <set>
+            <if test="label != null">
+                label = #{label},
+            </if>
+            <if test="value != null">
+                value = #{value},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="cssClass != null">
+                css_class = #{cssClass},
+            </if>
+            <if test="listClass != null">
+                list_class = #{listClass},
+            </if>
+            <if test="isDefault != null">
+                is_default = #{isDefault},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            version = version + 1,
+            updated_at = CURRENT_TIMESTAMP
+        </set>
+        WHERE id = #{id} AND version = #{version}
+    </update>
+
+    <!-- 删除字典数据 -->
+    <delete id="deleteById">
+        DELETE FROM sys_dict_data WHERE id = #{id}
+    </delete>
+
+    <!-- 批量删除字典数据 -->
+    <delete id="deleteBatchIds">
+        DELETE FROM sys_dict_data WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据字典类型删除字典数据 -->
+    <delete id="deleteByDictType">
+        DELETE FROM sys_dict_data WHERE dict_type = #{dictType}
+    </delete>
+
+</mapper> 

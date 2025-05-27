@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.RoleMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.RoleMenuPO">
+        <id column="id" property="id"/>
+        <result column="role_id" property="roleId"/>
+        <result column="menu_id" property="menuId"/>
+        <result column="version" property="version"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_id, menu_id, version, created_at, updated_at
+    </sql>
+
+    <!-- 根据ID查询角色菜单关联 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据角色ID查询角色菜单关联列表 -->
+    <select id="selectListByRoleId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+        WHERE role_id = #{roleId}
+    </select>
+
+    <!-- 根据菜单ID查询角色菜单关联列表 -->
+    <select id="selectListByMenuId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM sys_role_menu
+        WHERE menu_id = #{menuId}
+    </select>
+
+    <!-- 新增角色菜单关联 -->
+    <insert id="insert" parameterType="com.ecoshop.dao.po.sys.RoleMenuPO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_role_menu (
+            role_id, menu_id, version
+        ) VALUES (
+            #{roleId}, #{menuId}, 1
+        )
+    </insert>
+
+    <!-- 批量新增角色菜单关联 -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO sys_role_menu (
+            role_id, menu_id, version
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.roleId}, #{item.menuId}, 1)
+        </foreach>
+    </insert>
+
+    <!-- 根据角色ID删除角色菜单关联 -->
+    <delete id="deleteByRoleId">
+        DELETE FROM sys_role_menu WHERE role_id = #{roleId}
+    </delete>
+
+    <!-- 根据菜单ID删除角色菜单关联 -->
+    <delete id="deleteByMenuId">
+        DELETE FROM sys_role_menu WHERE menu_id = #{menuId}
+    </delete>
+
+    <!-- 删除角色菜单关联 -->
+    <delete id="deleteById">
+        DELETE FROM sys_role_menu WHERE id = #{id}
+    </delete>
+
+</mapper> 
