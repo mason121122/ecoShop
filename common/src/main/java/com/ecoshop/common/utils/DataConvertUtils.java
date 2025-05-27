@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Mark Wang
+ * @author Vance
  * @date 2021/9/30
  * 数据转换工具类
  */

@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * @author Mark Wang
+ * @author Vance
  * @date 2021/9/30
  */
 public enum ResultEnum {

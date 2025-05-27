@@ -3,7 +3,7 @@ package com.ecoshop.common.utils;
 import java.util.UUID;
 
 /**
- * @author Mark Wang
+ * @author Vance
  * @date 2021/9/30
  * UUID随机生成字符串工具类
  */

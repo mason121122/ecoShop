@@ -1,140 +1,187 @@
 package com.ecoshop.dao.po.product;
 
-
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.Data;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
- * 商品表
- * @TableName product
+ * 商品信息表
  */
 @Data
-public class ProductPo {
+public class ProductPO {
+    
     /**
      * 主键ID
      */
     private Long id;
-
+    
     /**
      * 租户ID
      */
     private Long tenantId;
-
-    /**
-     * 商品名称
-     */
-    private String name;
-
-    /**
-     * 商品编码
-     */
-    private String code;
-
+    
     /**
      * 分类ID
      */
     private Long categoryId;
-
+    
     /**
-     * 品牌ID
+     * 商品编码
      */
-    private Long brandId;
-
+    private String code;
+    
     /**
-     * 主图
+     * 商品名称
      */
-    private String mainImage;
-
+    private String name;
+    
     /**
-     * 子图(JSON格式)
+     * 商品简介
      */
-    private String subImages;
-
+    private String brief;
+    
     /**
      * 商品详情
      */
-    private String detail;
-
+    private String description;
+    
     /**
-     * 售价
+     * 商品主图
      */
-    private BigDecimal price;
-
+    private String mainImage;
+    
     /**
-     * 市场价
+     * 商品图片列表，多个图片用逗号分隔
      */
-    private BigDecimal marketPrice;
-
+    private String subImages;
+    
     /**
-     * 成本价
+     * 商品规格类型：0-单规格，1-多规格
      */
-    private BigDecimal costPrice;
-
+    private Integer specType;
+    
     /**
-     * 库存
-     */
-    private Integer stock;
-
-    /**
-     * 销量
-     */
-    private Integer sales;
-
-    /**
-     * 单位
+     * 商品单位
      */
     private String unit;
-
+    
     /**
-     * 重量(kg)
+     * 商品重量，默认为克
      */
     private BigDecimal weight;
-
+    
     /**
-     * 状态(1:上架,0:下架)
+     * 商品体积，默认为立方厘米
      */
-    private Integer status;
-
+    private BigDecimal volume;
+    
     /**
-     * 是否新品(1:是,0:否)
+     * 商品原价
      */
-    private Integer isNew;
-
+    private BigDecimal originalPrice;
+    
     /**
-     * 是否热销(1:是,0:否)
+     * 商品现价
+     */
+    private BigDecimal currentPrice;
+    
+    /**
+     * 商品成本价
+     */
+    private BigDecimal costPrice;
+    
+    /**
+     * 最低价格（多规格商品）
+     */
+    private BigDecimal minPrice;
+    
+    /**
+     * 最高价格（多规格商品）
+     */
+    private BigDecimal maxPrice;
+    
+    /**
+     * 商品库存
+     */
+    private Integer stock;
+    
+    /**
+     * 库存预警值
+     */
+    private Integer lowStock;
+    
+    /**
+     * 商品销量
+     */
+    private Integer sales;
+    
+    /**
+     * 商品浏览量
+     */
+    private Integer views;
+    
+    /**
+     * 商品评价数
+     */
+    private Integer commentCount;
+    
+    /**
+     * 好评数
+     */
+    private Integer goodCommentCount;
+    
+    /**
+     * 商品评分
+     */
+    private BigDecimal commentScore;
+    
+    /**
+     * 是否热卖(1:是 0:否)
      */
     private Integer isHot;
-
+    
     /**
-     * 是否推荐(1:是,0:否)
+     * 是否新品(1:是 0:否)
+     */
+    private Integer isNew;
+    
+    /**
+     * 是否推荐(1:是 0:否)
      */
     private Integer isRecommend;
-
+    
     /**
-     * 关键字
+     * 是否上架(1:是 0:否)
      */
-    private String keywords;
-
+    private Integer isOnSale;
+    
+    /**
+     * 排序号
+     */
+    private Integer sort;
+    
+    /**
+     * 状态(1:正常 0:禁用)
+     */
+    private Integer status;
+    
     /**
      * 备注
      */
     private String remark;
-
+    
     /**
      * 版本号
      */
     private Integer version;
-
+    
     /**
      * 创建时间
      */
-    private Date createdAt;
-
+    private LocalDateTime createdAt;
+    
     /**
      * 修改时间
      */
-    private Date updatedAt;
-
-    
-}
+    private LocalDateTime updatedAt;
+} 

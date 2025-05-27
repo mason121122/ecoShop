@@ -1,15 +1,14 @@
 package com.ecoshop.dao.po.order;
 
-
-import java.util.Date;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 /**
- * 订单日志表
- * @TableName order_log
+ * 订单操作日志表
  */
 @Data
-public class OrderLogPo {
+public class OrderLogPO {
+
     /**
      * 主键ID
      */
@@ -26,29 +25,14 @@ public class OrderLogPo {
     private Long orderId;
 
     /**
-     * 订单编号
-     */
-    private String orderNo;
-
-    /**
-     * 操作类型
-     */
-    private String action;
-
-    /**
-     * 操作前状态
-     */
-    private String statusBefore;
-
-    /**
-     * 操作后状态
-     */
-    private String statusAfter;
-
-    /**
      * 操作人ID
      */
     private Long operatorId;
+
+    /**
+     * 操作人类型（1系统 2用户 3商家 4管理员）
+     */
+    private Integer operatorType;
 
     /**
      * 操作人名称
@@ -56,19 +40,29 @@ public class OrderLogPo {
     private String operatorName;
 
     /**
-     * 操作人角色(用户/管理员)
+     * 操作类型（1创建订单 2支付订单 3发货 4收货 5完成 6取消）
      */
-    private String operatorRole;
+    private Integer operationType;
 
     /**
-     * 操作内容
+     * 操作描述
      */
-    private String content;
+    private String operationDesc;
 
     /**
-     * 操作IP
+     * IP地址
      */
-    private String ip;
+    private String ipaddr;
+
+    /**
+     * 操作地点
+     */
+    private String location;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     /**
      * 版本号
@@ -78,12 +72,10 @@ public class OrderLogPo {
     /**
      * 创建时间
      */
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     /**
      * 修改时间
      */
-    private Date updatedAt;
-
-    
-}
+    private LocalDateTime updatedAt;
+} 

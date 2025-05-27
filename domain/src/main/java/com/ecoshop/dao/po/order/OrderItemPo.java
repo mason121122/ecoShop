@@ -1,16 +1,14 @@
 package com.ecoshop.dao.po.order;
 
-
-import java.math.BigDecimal;
-import java.util.Date;
 import lombok.Data;
+import java.time.LocalDateTime;
 
 /**
- * 订单项表
- * @TableName order_item
+ * 订单明细表
  */
 @Data
-public class OrderItemPo {
+public class OrderItemPO {
+
     /**
      * 主键ID
      */
@@ -27,14 +25,14 @@ public class OrderItemPo {
     private Long orderId;
 
     /**
-     * 订单编号
-     */
-    private String orderNo;
-
-    /**
      * 商品ID
      */
     private Long productId;
+
+    /**
+     * 商品规格ID
+     */
+    private Long specId;
 
     /**
      * 商品名称
@@ -47,44 +45,44 @@ public class OrderItemPo {
     private String productImage;
 
     /**
-     * SKU ID
+     * 商品规格值
      */
-    private Long skuId;
+    private String specValues;
 
     /**
-     * SKU编码
+     * 商品单价（分）
      */
-    private String skuCode;
+    private Integer price;
 
     /**
-     * SKU规格(JSON格式)
-     */
-    private String skuSpec;
-
-    /**
-     * 商品单价
-     */
-    private BigDecimal price;
-
-    /**
-     * 购买数量
+     * 商品数量
      */
     private Integer quantity;
 
     /**
-     * 总金额
+     * 商品总价（分）
      */
-    private BigDecimal totalAmount;
+    private Integer totalAmount;
 
     /**
-     * 评价状态(0:未评价,1:已评价)
+     * 优惠金额（分）
      */
-    private Integer reviewStatus;
+    private Integer discountAmount;
 
     /**
-     * 售后状态(无售后/退款中/已退款/换货中/已换货)
+     * 实付金额（分）
      */
-    private String afterSaleStatus;
+    private Integer payAmount;
+
+    /**
+     * 是否已评价（0未评价 1已评价）
+     */
+    private Integer isReviewed;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     /**
      * 版本号
@@ -94,12 +92,10 @@ public class OrderItemPo {
     /**
      * 创建时间
      */
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     /**
      * 修改时间
      */
-    private Date updatedAt;
-
-    
-}
+    private LocalDateTime updatedAt;
+} 

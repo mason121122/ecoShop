@@ -3,7 +3,7 @@ package com.ecoshop.common.exception;
 import com.ecoshop.enums.ResultEnum;
 
 /**
- * @author Mark Wang
+ * @author Vance
  * @date 2021/9/30
  */
 public class BusinessException extends RuntimeException {

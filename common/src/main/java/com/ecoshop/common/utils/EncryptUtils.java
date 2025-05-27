@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * @author Mark Wang
+ * @author Vance
  * @date 2021/9/30
  * 加密工具类
  */
