@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.ord.OrdCartMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.order.OrdCart">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+            <result property="memberId" column="member_id" jdbcType="BIGINT"/>
+            <result property="spuId" column="spu_id" jdbcType="BIGINT"/>
+            <result property="spuName" column="spu_name" jdbcType="VARCHAR"/>
+            <result property="spuImage" column="spu_image" jdbcType="VARCHAR"/>
+            <result property="skuId" column="sku_id" jdbcType="BIGINT"/>
+            <result property="skuCode" column="sku_code" jdbcType="VARCHAR"/>
+            <result property="skuSpec" column="sku_spec" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="DECIMAL"/>
+            <result property="quantity" column="quantity" jdbcType="INTEGER"/>
+            <result property="checked" column="checked" jdbcType="TINYINT"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tenant_id,member_id,
+        spu_id,spu_name,spu_image,
+        sku_id,sku_code,sku_spec,
+        price,quantity,checked,
+        version,created_at,updated_at
+    </sql>
+</mapper>
