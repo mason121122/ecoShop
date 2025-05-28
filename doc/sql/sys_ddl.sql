@@ -1,210 +1,270 @@
--- ===============================
--- 系统模块（sys_）
--- ===============================
+-- ----------------------------
+-- 租户管理模块
+-- ----------------------------
 
--- 1. 租户表
+-- 租户表
 CREATE TABLE sys_tenant (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    name VARCHAR(100) NOT NULL COMMENT '租户名称',
-    code VARCHAR(50) NOT NULL COMMENT '租户编码',
-    domain VARCHAR(100) DEFAULT NULL COMMENT '域名',
-    logo VARCHAR(255) DEFAULT NULL COMMENT 'Logo',
-    contact_name VARCHAR(50) DEFAULT NULL COMMENT '联系人',
-    contact_phone VARCHAR(20) DEFAULT NULL COMMENT '联系电话',
-    contact_email VARCHAR(100) DEFAULT NULL COMMENT '联系邮箱',
-    expire_time DATETIME DEFAULT NULL COMMENT '过期时间',
-    status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
-    remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
+                            id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                            name VARCHAR(100) NOT NULL COMMENT '租户名称',
+                            code VARCHAR(50) NOT NULL COMMENT '租户编码',
+                            domain VARCHAR(100) DEFAULT NULL COMMENT '域名',
+                            logo VARCHAR(255) DEFAULT NULL COMMENT 'Logo',
+                            contact_name VARCHAR(50) DEFAULT NULL COMMENT '联系人',
+                            contact_phone VARCHAR(20) DEFAULT NULL COMMENT '联系电话',
+                            contact_email VARCHAR(100) DEFAULT NULL COMMENT '联系邮箱',
+                            expire_time DATETIME DEFAULT NULL COMMENT '过期时间',
+                            status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                            remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
+                            version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                            created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
 ) COMMENT='租户表';
 
--- 2. 用户表
+-- ----------------------------
+-- 用户与身份管理模块
+-- ----------------------------
+
+-- 用户表
 CREATE TABLE sys_user (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    username VARCHAR(50) NOT NULL COMMENT '用户名',
-    password VARCHAR(100) NOT NULL COMMENT '密码',
-    salt VARCHAR(20) DEFAULT NULL COMMENT '密码盐',
-    real_name VARCHAR(50) DEFAULT NULL COMMENT '真实姓名',
-    avatar VARCHAR(255) DEFAULT NULL COMMENT '头像',
-    gender TINYINT DEFAULT 0 COMMENT '性别(0:未知,1:男,2:女)',
-    mobile VARCHAR(20) DEFAULT NULL COMMENT '手机号',
-    email VARCHAR(100) DEFAULT NULL COMMENT '邮箱',
-    dept_id BIGINT DEFAULT NULL COMMENT '部门ID',
-    status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
-    last_login_time DATETIME DEFAULT NULL COMMENT '最后登录时间',
-    last_login_ip VARCHAR(50) DEFAULT NULL COMMENT '最后登录IP',
-    remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
+                          id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                          tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                          username VARCHAR(50) NOT NULL COMMENT '用户名',
+                          password VARCHAR(100) NOT NULL COMMENT '密码',
+                          real_name VARCHAR(50) DEFAULT NULL COMMENT '真实姓名',
+                          avatar VARCHAR(255) DEFAULT NULL COMMENT '头像',
+                          email VARCHAR(100) DEFAULT NULL COMMENT '邮箱',
+                          phone VARCHAR(20) DEFAULT NULL COMMENT '手机号',
+                          status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                          remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
+                          version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                          created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
 ) COMMENT='用户表';
 
--- 3. 角色表
+-- 机构表
+CREATE TABLE sys_organization (
+                                  id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                                  tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                                  parent_id BIGINT DEFAULT NULL COMMENT '父机构ID',
+                                  name VARCHAR(100) NOT NULL COMMENT '机构名称',
+                                  code VARCHAR(50) DEFAULT NULL COMMENT '机构编码',
+                                  type TINYINT DEFAULT 1 COMMENT '机构类型(1:公司,2:部门,3:小组)',
+                                  leader_id BIGINT DEFAULT NULL COMMENT '负责人ID',
+                                  contact_phone VARCHAR(20) DEFAULT NULL COMMENT '联系电话',
+                                  status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                                  sort INT DEFAULT 0 COMMENT '排序号',
+                                  remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
+                                  version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                                  created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='机构表';
+
+-- 岗位表
+CREATE TABLE sys_position (
+                              id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                              tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                              org_id BIGINT NOT NULL COMMENT '所属机构ID',
+                              name VARCHAR(50) NOT NULL COMMENT '岗位名称',
+                              code VARCHAR(50) DEFAULT NULL COMMENT '岗位编码',
+                              level TINYINT DEFAULT 1 COMMENT '岗位层级',
+                              description VARCHAR(200) DEFAULT NULL COMMENT '岗位描述',
+                              status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                              sort INT DEFAULT 0 COMMENT '排序号',
+                              remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
+                              version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                              updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='岗位表';
+
+-- 用户-机构-岗位关联表
+CREATE TABLE sys_user_position (
+                                   id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                                   tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                                   user_id BIGINT NOT NULL COMMENT '用户ID',
+                                   org_id BIGINT NOT NULL COMMENT '机构ID',
+                                   position_id BIGINT NOT NULL COMMENT '岗位ID',
+                                   is_primary TINYINT DEFAULT 0 COMMENT '是否主岗(1:是,0:否)',
+                                   start_date DATE DEFAULT NULL COMMENT '开始日期',
+                                   end_date DATE DEFAULT NULL COMMENT '结束日期',
+                                   status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                                   version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                                   created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='用户-机构-岗位关联表';
+
+-- ----------------------------
+-- 权限管理模块
+-- ----------------------------
+
+-- 角色表
 CREATE TABLE sys_role (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    name VARCHAR(50) NOT NULL COMMENT '角色名称',
-    code VARCHAR(50) NOT NULL COMMENT '角色编码',
-    status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
-    data_scope TINYINT DEFAULT 1 COMMENT '数据范围(1:全部,2:自定义,3:本部门,4:本部门及以下,5:仅本人)',
-    remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
+                          id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                          tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                          name VARCHAR(50) NOT NULL COMMENT '角色名称',
+                          code VARCHAR(50) DEFAULT NULL COMMENT '角色编码',
+                          description VARCHAR(200) DEFAULT NULL COMMENT '角色描述',
+                          data_scope TINYINT DEFAULT 1 COMMENT '数据范围(1:全部数据,2:本部门及下级,3:本部门,4:仅本人数据,5:自定义)',
+                          status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                          sort INT DEFAULT 0 COMMENT '排序号',
+                          remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
+                          version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                          created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
 ) COMMENT='角色表';
 
--- 4. 菜单表
-CREATE TABLE sys_menu (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    parent_id BIGINT DEFAULT NULL COMMENT '父菜单ID',
-    name VARCHAR(50) NOT NULL COMMENT '菜单名称',
-    path VARCHAR(200) DEFAULT NULL COMMENT '路由地址',
-    component VARCHAR(255) DEFAULT NULL COMMENT '组件路径',
-    type TINYINT NOT NULL COMMENT '菜单类型(1:目录,2:菜单,3:按钮)',
-    icon VARCHAR(50) DEFAULT NULL COMMENT '菜单图标',
-    sort INT DEFAULT 0 COMMENT '排序号',
-    permission VARCHAR(100) DEFAULT NULL COMMENT '权限标识',
-    status TINYINT DEFAULT 1 COMMENT '状态(1:显示,0:隐藏)',
-    is_cache TINYINT DEFAULT 0 COMMENT '是否缓存(1:是,0:否)',
-    is_frame TINYINT DEFAULT 0 COMMENT '是否外链(1:是,0:否)',
-    remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='菜单表';
+-- 岗位-角色关联表
+CREATE TABLE sys_position_role (
+                                   id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                                   tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                                   position_id BIGINT NOT NULL COMMENT '岗位ID',
+                                   role_id BIGINT NOT NULL COMMENT '角色ID',
+                                   status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                                   version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                                   created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='岗位-角色关联表';
 
--- 5. 部门表
-CREATE TABLE sys_dept (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    parent_id BIGINT DEFAULT NULL COMMENT '父部门ID',
-    name VARCHAR(50) NOT NULL COMMENT '部门名称',
-    code VARCHAR(50) NOT NULL COMMENT '部门编码',
-    leader VARCHAR(50) DEFAULT NULL COMMENT '负责人',
-    phone VARCHAR(20) DEFAULT NULL COMMENT '联系电话',
-    email VARCHAR(100) DEFAULT NULL COMMENT '邮箱',
-    sort INT DEFAULT 0 COMMENT '排序号',
-    status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
-    remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='部门表';
+-- 资源表(菜单/页面元素)
+CREATE TABLE sys_resource (
+                              id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                              tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                              parent_id BIGINT DEFAULT NULL COMMENT '父资源ID',
+                              name VARCHAR(50) NOT NULL COMMENT '资源名称',
+                              code VARCHAR(50) DEFAULT NULL COMMENT '资源编码',
+                              type TINYINT NOT NULL COMMENT '资源类型(1:菜单,2:按钮,3:字段,4:API)',
+                              url VARCHAR(255) DEFAULT NULL COMMENT 'URL路径',
+                              icon VARCHAR(50) DEFAULT NULL COMMENT '图标',
+                              sort INT DEFAULT 0 COMMENT '排序号',
+                              visible TINYINT DEFAULT 1 COMMENT '是否可见(1:是,0:否)',
+                              status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                              remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
+                              version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                              created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                              updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='资源表';
 
--- 6. 用户角色关联表
-CREATE TABLE sys_user_role (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    user_id BIGINT NOT NULL COMMENT '用户ID',
-    role_id BIGINT NOT NULL COMMENT '角色ID',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='用户角色关联表';
+-- 权限表
+CREATE TABLE sys_permission (
+                                id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                                tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                                name VARCHAR(50) NOT NULL COMMENT '权限名称',
+                                code VARCHAR(50) NOT NULL COMMENT '权限编码',
+                                resource_id BIGINT NOT NULL COMMENT '关联资源ID',
+                                action VARCHAR(50) DEFAULT NULL COMMENT '操作类型(GET/POST/PUT/DELETE等)',
+                                description VARCHAR(200) DEFAULT NULL COMMENT '权限描述',
+                                status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                                version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                                created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='权限表';
 
--- 7. 角色菜单关联表
-CREATE TABLE sys_role_menu (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    role_id BIGINT NOT NULL COMMENT '角色ID',
-    menu_id BIGINT NOT NULL COMMENT '菜单ID',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='角色菜单关联表';
+-- 角色-权限关联表
+CREATE TABLE sys_role_permission (
+                                     id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                                     tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                                     role_id BIGINT NOT NULL COMMENT '角色ID',
+                                     permission_id BIGINT NOT NULL COMMENT '权限ID',
+                                     version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='角色-权限关联表';
 
--- 8. 角色部门关联表
-CREATE TABLE sys_role_dept (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    role_id BIGINT NOT NULL COMMENT '角色ID',
-    dept_id BIGINT NOT NULL COMMENT '部门ID',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='角色部门关联表';
+-- 数据权限规则表
+CREATE TABLE sys_data_rule (
+                               id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                               tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                               name VARCHAR(50) NOT NULL COMMENT '规则名称',
+                               code VARCHAR(50) DEFAULT NULL COMMENT '规则编码',
+                               description VARCHAR(200) DEFAULT NULL COMMENT '规则描述',
+                               rule_condition TEXT DEFAULT NULL COMMENT '规则条件表达式',
+                               status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                               version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                               created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='数据权限规则表';
 
--- 9. 字典类型表
-CREATE TABLE sys_dict_type (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    name VARCHAR(50) NOT NULL COMMENT '字典名称',
-    code VARCHAR(50) NOT NULL COMMENT '字典编码',
-    status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
-    remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='字典类型表';
+-- 角色-数据规则关联表
+CREATE TABLE sys_role_data_rule (
+                                    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                                    tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                                    role_id BIGINT NOT NULL COMMENT '角色ID',
+                                    data_rule_id BIGINT NOT NULL COMMENT '数据规则ID',
+                                    version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='角色-数据规则关联表';
 
--- 10. 字典数据表
-CREATE TABLE sys_dict_data (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    type_id BIGINT NOT NULL COMMENT '字典类型ID',
-    label VARCHAR(100) NOT NULL COMMENT '字典标签',
-    value VARCHAR(100) NOT NULL COMMENT '字典值',
-    sort INT DEFAULT 0 COMMENT '排序号',
-    status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
-    remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='字典数据表';
+-- ----------------------------
+-- 路由管理模块
+-- ----------------------------
 
--- 11. 参数配置表
-CREATE TABLE sys_config (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    name VARCHAR(100) NOT NULL COMMENT '参数名称',
-    code VARCHAR(100) NOT NULL COMMENT '参数编码',
-    value VARCHAR(500) DEFAULT NULL COMMENT '参数值',
-    type TINYINT DEFAULT 1 COMMENT '系统内置(1:是,0:否)',
-    status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
-    remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='参数配置表';
+-- 路由表
+CREATE TABLE sys_route (
+                           id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                           tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                           parent_id BIGINT DEFAULT NULL COMMENT '父路由ID',
+                           name VARCHAR(50) NOT NULL COMMENT '路由名称',
+                           path VARCHAR(100) NOT NULL COMMENT '路由路径',
+                           component VARCHAR(100) DEFAULT NULL COMMENT '组件路径',
+                           redirect VARCHAR(100) DEFAULT NULL COMMENT '重定向路径',
+                           meta JSON DEFAULT NULL COMMENT '元数据(JSON格式)',
+                           sort INT DEFAULT 0 COMMENT '排序号',
+                           hidden TINYINT DEFAULT 0 COMMENT '是否隐藏(1:是,0:否)',
+                           status TINYINT DEFAULT 1 COMMENT '状态(1:正常,0:禁用)',
+                           remark VARCHAR(200) DEFAULT NULL COMMENT '备注',
+                           version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                           created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                           updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='路由表';
 
--- 12. 操作日志表
-CREATE TABLE sys_oper_log (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    title VARCHAR(50) NOT NULL COMMENT '模块标题',
-    business_type TINYINT DEFAULT 0 COMMENT '业务类型(0:其它,1:新增,2:修改,3:删除,4:授权,5:导出,6:导入,7:强退,8:生成代码,9:清空数据)',
-    method VARCHAR(100) DEFAULT NULL COMMENT '方法名称',
-    request_method VARCHAR(10) DEFAULT NULL COMMENT '请求方式',
-    request_url VARCHAR(255) DEFAULT NULL COMMENT '请求URL',
-    request_ip VARCHAR(50) DEFAULT NULL COMMENT '主机地址',
-    request_location VARCHAR(255) DEFAULT NULL COMMENT '操作地点',
-    request_params TEXT DEFAULT NULL COMMENT '请求参数',
-    response_result TEXT DEFAULT NULL COMMENT '返回参数',
-    status TINYINT DEFAULT 1 COMMENT '操作状态(1:正常,0:异常)',
-    error_msg TEXT DEFAULT NULL COMMENT '错误消息',
-    operator_id BIGINT DEFAULT NULL COMMENT '操作人ID',
-    operator_name VARCHAR(50) DEFAULT NULL COMMENT '操作人名称',
-    dept_name VARCHAR(50) DEFAULT NULL COMMENT '部门名称',
-    cost_time BIGINT DEFAULT NULL COMMENT '消耗时间',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='操作日志表';
+-- 资源-路由关联表
+CREATE TABLE sys_resource_route (
+                                    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                                    tenant_id BIGINT NOT NULL COMMENT '租户ID',
+                                    resource_id BIGINT NOT NULL COMMENT '资源ID',
+                                    route_id BIGINT NOT NULL COMMENT '路由ID',
+                                    version INT DEFAULT 1 COMMENT '版本号(用于乐观锁)',
+                                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间(自动更新)'
+) COMMENT='资源-路由关联表';
 
--- 13. 登录日志表
-CREATE TABLE sys_login_log (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-    tenant_id BIGINT DEFAULT NULL COMMENT '租户ID',
-    user_id BIGINT NOT NULL COMMENT '用户ID',
-    username VARCHAR(50) NOT NULL COMMENT '用户名',
-    login_ip VARCHAR(50) DEFAULT NULL COMMENT '登录IP',
-    login_location VARCHAR(255) DEFAULT NULL COMMENT '登录地点',
-    browser VARCHAR(50) DEFAULT NULL COMMENT '浏览器类型',
-    os VARCHAR(50) DEFAULT NULL COMMENT '操作系统',
-    status TINYINT DEFAULT 1 COMMENT '登录状态(1:成功,0:失败)',
-    msg VARCHAR(255) DEFAULT NULL COMMENT '提示消息',
-    version INT DEFAULT 1 COMMENT '版本号',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间'
-) COMMENT='登录日志表'; 
+-- sys_user表：租户内用户查询和登录验证
+ALTER TABLE sys_user ADD INDEX idx_tenant_id (tenant_id);
+ALTER TABLE sys_user ADD INDEX idx_username_tenant (username, tenant_id);
+
+-- sys_tenant表：租户编码查询
+ALTER TABLE sys_tenant ADD INDEX idx_tenant_code (code);
+
+-- sys_organization表：机构层级查询
+ALTER TABLE sys_organization ADD INDEX idx_tenant_parent (tenant_id, parent_id);
+
+-- sys_position表：岗位查询
+ALTER TABLE sys_position ADD INDEX idx_tenant_org (tenant_id, org_id);
+
+-- sys_user_position表：用户岗位关系查询
+ALTER TABLE sys_user_position ADD INDEX idx_user_tenant (user_id, tenant_id);
+ALTER TABLE sys_user_position ADD INDEX idx_user_primary (user_id, is_primary);
+
+-- sys_role表：角色查询
+ALTER TABLE sys_role ADD INDEX idx_tenant_code (tenant_id, code);
+
+-- sys_position_role表：岗位-角色关联查询
+ALTER TABLE sys_position_role ADD INDEX idx_position_role (position_id, role_id);
+
+-- sys_role_permission表：角色权限关联查询
+ALTER TABLE sys_role_permission ADD INDEX idx_role_permission (role_id, permission_id);
+
+-- sys_permission表：权限编码查询
+ALTER TABLE sys_permission ADD INDEX idx_permission_code (code);
+-- sys_resource表：资源层级查询和类型过滤
+ALTER TABLE sys_resource ADD INDEX idx_tenant_parent (tenant_id, parent_id);
+ALTER TABLE sys_resource ADD INDEX idx_resource_type (type);
+
+-- sys_route表：路由路径查询
+ALTER TABLE sys_route ADD INDEX idx_tenant_path (tenant_id, path);
+
+-- sys_data_rule表：规则编码查询
+ALTER TABLE sys_data_rule ADD INDEX idx_rule_code (code);
+
+-- sys_role_data_rule表：角色-数据规则关联查询
+ALTER TABLE sys_role_data_rule ADD INDEX idx_role_rule (role_id, data_rule_id);
