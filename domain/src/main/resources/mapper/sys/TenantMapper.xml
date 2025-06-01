@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.TenantMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.TenantPo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="domain" column="domain" jdbcType="VARCHAR"/>
+        <result property="logo" column="logo" jdbcType="VARCHAR"/>
+        <result property="contactName" column="contact_name" jdbcType="VARCHAR"/>
+        <result property="contactPhone" column="contact_phone" jdbcType="VARCHAR"/>
+        <result property="contactEmail" column="contact_email" jdbcType="VARCHAR"/>
+        <result property="expireTime" column="expire_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,code,
+        domain,logo,contact_name,
+        contact_phone,contact_email,expire_time,
+        status,remark,version
+    </sql>
+    <!-- 插入语句 - 全字段插入 -->
+    <insert id="add" parameterType="com.ecoshop.dao.po.sys.TenantPo">
+        INSERT INTO sys_tenant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <include refid="Base_Column_List"/>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{name}, #{code}, #{domain}, #{logo}, #{contactName},
+            #{contactPhone}, #{contactEmail}, #{expireTime},
+            #{status}, #{remark}, #{version}
+        </trim>
+    </insert>
+
+    <!-- 插入语句 - 动态字段 -->
+    <insert id="addSelective" parameterType="com.ecoshop.dao.po.sys.TenantPo">
+        INSERT INTO sys_tenant
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="code != null">code,</if>
+            <if test="domain != null">domain,</if>
+            <if test="logo != null">logo,</if>
+            <if test="contactName != null">contact_name,</if>
+            <if test="contactPhone != null">contact_phone,</if>
+            <if test="contactEmail != null">contact_email,</if>
+            <if test="expireTime != null">expire_time,</if>
+            <if test="status != null">status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="version != null">version,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updatedAt != null">updated_at,</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="code != null">#{code},</if>
+            <if test="domain != null">#{domain},</if>
+            <if test="logo != null">#{logo},</if>
+            <if test="contactName != null">#{contactName},</if>
+            <if test="contactPhone != null">#{contactPhone},</if>
+            <if test="contactEmail != null">#{contactEmail},</if>
+            <if test="expireTime != null">#{expireTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="version != null">#{version},</if>
+            <if test="createdAt != null">#{createdAt, jdbcType=TIMESTAMP},</if>
+            <if test="updatedAt != null">#{updatedAt, jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <!-- 修改语句 - 全字段更新 -->
+    <update id="editByPrimaryKey" parameterType="com.ecoshop.dao.po.sys.TenantPo">
+        UPDATE sys_tenant
+        SET name = #{name},
+        code = #{code},
+        domain = #{domain},
+        logo = #{logo},
+        contact_name = #{contactName},
+        contact_phone = #{contactPhone},
+        contact_email = #{contactEmail},
+        expire_time = #{expireTime},
+        status = #{status},
+        remark = #{remark},
+        version = #{version} + 1
+        WHERE id = #{id}
+        AND version = #{version}  <!-- 乐观锁条件 -->
+    </update>
+
+    <!-- 修改语句 - 动态更新 -->
+    <update id="editBySelective" parameterType="com.ecoshop.dao.po.sys.TenantPo">
+        UPDATE sys_tenant
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="domain != null">domain = #{domain},</if>
+            <if test="logo != null">logo = #{logo},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
+            <if test="contactPhone != null">contact_phone = #{contactPhone},</if>
+            <if test="contactEmail != null">contact_email = #{contactEmail},</if>
+            <if test="expireTime != null">expire_time = #{expireTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="version != null">version = #{version} + 1</if>
+        </set>
+        WHERE id = #{id}
+        <if test="version != null">AND version = #{version}</if>  <!-- 乐观锁条件 -->
+    </update>
+
+    <!-- 删除语句 - 逻辑删除（更新状态） -->
+    <update id="delById" parameterType="java.lang.Long">
+        UPDATE sys_tenant
+        SET status = 0,  <!-- 0: 禁用/删除状态 -->
+        version = version + 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除语句 - 物理删除（谨慎使用） -->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM sys_tenant
+        WHERE id = #{id}
+    </delete>
+
+    <select id="pageQuery" resultType="com.ecoshop.dao.po.sys.TenantPo">
+        select * from sys_tenant
+        <where>
+            <if test="tenantPo.id != null and tenantPo.id != 0">
+                and tenantPo.id = #{id}
+            </if>
+            <if test="tenantPo.name != null and tenantPo.name != ''">
+                and name = #{tenantPo.name}
+            </if>
+            <if test="tenantPo.code != null and tenantPo.code != ''">
+                and code = #{tenantPo.code}
+            </if>
+            <if test="tenantPo.domain != null and tenantPo.domain != ''">
+                and domain = #{tenantPo.domain}
+            </if>
+            <if test="tenantPo.contactName != null and tenantPo.contactName != ''">
+                and contact_name = #{tenantPo.contactName}
+            </if>
+            <if test="tenantPo.contactPhone != null and tenantPo.contactPhone != ''">
+                and contact_phone = #{tenantPo.contactPhone}
+            </if>
+            <if test="tenantPo.contactEmail != null and tenantPo.contactEmail != ''">
+                and contact_email = #{tenantPo.contactEmail}
+            </if>
+            <if test="tenantPo.status != null and tenantPo.status != ''">
+                and status = #{tenantPo.status}
+            </if>
+            <if test="beginTime != null">
+                and expire_time &lt; #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and expire_time &gt; #{endTime}
+            </if>
+        </where>
+        order by updated_at desc
+        LIMIT #{offset}, #{pageSize}
+    </select>
+</mapper>

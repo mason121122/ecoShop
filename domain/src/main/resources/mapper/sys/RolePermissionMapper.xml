@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.RolePermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.RolePermissionPo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+        <result property="roleId" column="role_id" jdbcType="BIGINT"/>
+        <result property="permissionId" column="permission_id" jdbcType="BIGINT"/>
+        <result property="version" column="version" jdbcType="INTEGER"/>
+        <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+        <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tenant_id,role_id,
+        permission_id,version
+    </sql>
+
+    <select id="find" resultMap="BaseResultMap">
+        select * from sys_role_permission
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != roleId">
+                and role_id = #{roleId}
+            </if>
+            <if test="null != permissionId">
+                and permission_id = #{permissionId}
+            </if>
+        </where>
+    </select>
+
+    <select id="pageQuery" resultMap="BaseResultMap">
+        select *
+        from sys_role_permission
+        order by updated_at desc
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageCount" resultType="integer">
+        select COUNT(id)
+        from sys_role_permission
+    </select>
+
+    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+        insert into sys_role_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            tenant_id,
+            role_id,
+            permission_id
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{tenantId},
+            #{roleId},
+            #{permissionId}
+        </trim>
+    </insert>
+
+    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+        update sys_role_permission
+        <set>
+            <if test="tenantId != null">
+                tenant_id = #{tenantId},
+            </if>
+            <if test="permissionId != null">
+                permission_id = #{permissionId},
+            </if>
+            <if test="roleId != null">
+                role_id = #{roleId},
+            </if>
+            <if test="version != null">
+                version = #{version} + 1
+            </if>
+        </set>
+        WHERE id = #{id} and version = #{version}
+    </update>
+
+    <delete id="del" parameterType="integer">
+        delete
+        from sys_role_permission
+        where id = #{id}
+    </delete>
+</mapper>

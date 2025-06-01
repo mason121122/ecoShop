@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.ResourceMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.ResourcePo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+            <result property="visible" column="visible" jdbcType="TINYINT"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tenant_id,parent_id,
+        name,code,type,
+        url,icon,sort,
+        visible,status,remark,
+        version,created_at,updated_at
+    </sql>
+
+
+    <select id="find" resultMap="BaseResultMap">
+        select * from sys_resource
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != parentId">
+                and parent_id = #{parentId}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != type">
+                and type = #{type}
+            </if>
+            <if test="null != url">
+                and url = #{url}
+            </if>
+            <if test="null != icon">
+                and icon = #{icon}
+            </if>
+            <if test="null != sort">
+                and sort = #{sort}
+            </if>
+            <if test="null != visible">
+                and visible = #{visible}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+            <if test="null != remark">
+                and remark = #{remark}
+            </if>
+        </where>
+    </select>
+
+    <select id="pageQuery" resultMap="BaseResultMap">
+        select *
+        from sys_resource
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != parentId">
+                and parent_id = #{parentId}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != type">
+                and type = #{type}
+            </if>
+            <if test="null != url">
+                and url = #{url}
+            </if>
+            <if test="null != icon">
+                and icon = #{icon}
+            </if>
+            <if test="null != sort">
+                and sort = #{sort}
+            </if>
+            <if test="null != visible">
+                and visible = #{visible}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+            <if test="null != remark">
+                and remark = #{remark}
+            </if>
+        </where>
+        order by updated_at desc
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <select id="pageCount" resultType="integer">
+        select COUNT(id)
+        from sys_resource
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != parentId">
+                and parent_id = #{parentId}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != type">
+                and type = #{type}
+            </if>
+            <if test="null != url">
+                and url = #{url}
+            </if>
+            <if test="null != icon">
+                and icon = #{icon}
+            </if>
+            <if test="null != sort">
+                and sort = #{sort}
+            </if>
+            <if test="null != visible">
+                and visible = #{visible}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+            <if test="null != remark">
+                and remark = #{remark}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+        insert into sys_resource
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            tenant_id,parent_id,
+            name,code,type,
+            url,icon,sort,
+            visible,status,remark
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{tenantId},
+            #{parentId},
+            #{name},#{code},#{type},
+            #{url},#{icon},#{sort},
+            #{visible},#{status},#{remark}
+        </trim>
+    </insert>
+
+    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+        update sys_resource
+        <set>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != parentId">
+                and parent_id = #{parentId}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != type">
+                and type = #{type}
+            </if>
+            <if test="null != url">
+                and url = #{url}
+            </if>
+            <if test="null != icon">
+                and icon = #{icon}
+            </if>
+            <if test="null != sort">
+                and sort = #{sort}
+            </if>
+            <if test="null != visible">
+                and visible = #{visible}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+            <if test="null != remark">
+                and remark = #{remark}
+            </if>
+            <if test="version != null">
+                version = #{version} + 1
+            </if>
+        </set>
+        WHERE id = #{id} and version = #{version}
+    </update>
+
+    <delete id="del" parameterType="integer">
+        delete
+        from sys_resource
+        where id = #{id}
+    </delete>
+</mapper>

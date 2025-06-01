@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.PermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.PermissionPo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="resourceId" column="resource_id" jdbcType="BIGINT"/>
+            <result property="action" column="action" jdbcType="VARCHAR"/>
+            <result property="description" column="description" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tenant_id,name,
+        code,resource_id,action,
+        description,status,version,
+        created_at,updated_at
+    </sql>
+
+    <select id="pageQuery" resultMap="BaseResultMap">
+        select *
+        from sys_permission
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != resource_id">
+                and resource_id = #{resource_id}
+            </if>
+            <if test="null != action">
+                and action = #{action}
+            </if>
+            <if test="null != description">
+                and description = #{description}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+        </where>
+        <if test="null != offset and null != pageSize">
+            order by updated_at desc
+            LIMIT #{offset}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="pageCount" resultType="integer">
+        select COUNT(id)
+        from sys_permission
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != resource_id">
+                and resource_id = #{resource_id}
+            </if>
+            <if test="null != action">
+                and action = #{action}
+            </if>
+            <if test="null != description">
+                and description = #{description}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+        insert into sys_permission
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            tenant_id,name,
+            code,resource_id,action,
+            description,status
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{tenantId},#{name},
+            #{code},#{resourceId},#{action},
+            #{description},#{status}
+        </trim>
+    </insert>
+
+    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+        update sys_permission
+        <set>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != resource_id">
+                and resource_id = #{resource_id}
+            </if>
+            <if test="null != action">
+                and action = #{action}
+            </if>
+            <if test="null != description">
+                and description = #{description}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+            <if test="version != null">
+                version = #{version} + 1
+            </if>
+        </set>
+        WHERE id = #{id} and version = #{version}
+    </update>
+
+    <delete id="del" parameterType="integer">
+        delete
+        from sys_permission
+        where id = #{id}
+    </delete>
+</mapper>

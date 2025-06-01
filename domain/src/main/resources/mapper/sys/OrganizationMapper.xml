@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.OrganizationMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.OrganizationPo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+            <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="leaderId" column="leader_id" jdbcType="BIGINT"/>
+            <result property="contactPhone" column="contact_phone" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tenant_id,parent_id,
+        name,code,type,
+        leader_id,contact_phone,status,
+        sort,remark,version,
+        created_at,updated_at
+    </sql>
+
+    <select id="pageQuery" resultMap="BaseResultMap">
+        select *
+        from sys_organization
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != parentId">
+                and parent_id = #{parentId}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != type">
+                and type = #{type}
+            </if>
+            <if test="null != leaderId">
+                and leader_id = #{leaderId}
+            </if>
+            <if test="null != contactPhone">
+                and contact_phone = #{contactPhone}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+            <if test="null != sort">
+                and sort = #{sort}
+            </if>
+            <if test="null != remark">
+                and remark = #{remark}
+            </if>
+        </where>
+        <if test="null != offset and null != pageSize">
+            order by updated_at desc
+            LIMIT #{offset}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="pageCount" resultType="integer">
+        select COUNT(id)
+        from sys_organization
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != parentId">
+                and parent_id = #{parentId}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != type">
+                and type = #{type}
+            </if>
+            <if test="null != leaderId">
+                and leader_id = #{leaderId}
+            </if>
+            <if test="null != contactPhone">
+                and contact_phone = #{contactPhone}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+            <if test="null != sort">
+                and sort = #{sort}
+            </if>
+            <if test="null != remark">
+                and remark = #{remark}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+        insert into sys_organization
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            tenant_id,parent_id,
+            name,code,type,
+            leader_id,contact_phone,status,
+            sort,remark
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{tenantId},#{parentId},
+            #{name},#{code},#{type},
+            #{leaderId},#{contactPhone},#{status},
+            #{sort},#{remark}
+        </trim>
+    </insert>
+
+    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+        update sys_organization
+        <set>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != parentId">
+                and parent_id = #{parentId}
+            </if>
+            <if test="null != code">
+                and code = #{code}
+            </if>
+            <if test="null != name">
+                and name = #{name}
+            </if>
+            <if test="null != type">
+                and type = #{type}
+            </if>
+            <if test="null != leaderId">
+                and leader_id = #{leaderId}
+            </if>
+            <if test="null != contactPhone">
+                and contact_phone = #{contactPhone}
+            </if>
+            <if test="null != status">
+                and status = #{status}
+            </if>
+            <if test="null != sort">
+                and sort = #{sort}
+            </if>
+            <if test="null != remark">
+                and remark = #{remark}
+            </if>
+            <if test="version != null">
+                version = #{version} + 1
+            </if>
+        </set>
+        WHERE id = #{id} and version = #{version}
+    </update>
+
+    <delete id="del" parameterType="integer">
+        delete
+        from sys_organization
+        where id = #{id}
+    </delete>
+</mapper>

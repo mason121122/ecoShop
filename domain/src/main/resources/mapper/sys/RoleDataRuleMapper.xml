@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ecoshop.dao.mapper.sys.RoleDataRuleMapper">
+
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.RoleDataRulePo">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
+            <result property="roleId" column="role_id" jdbcType="BIGINT"/>
+            <result property="dataRuleId" column="data_rule_id" jdbcType="BIGINT"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,tenant_id,role_id,
+        data_rule_id,version,created_at,
+        updated_at
+    </sql>
+
+    <select id="find" resultMap="BaseResultMap">
+        select * from sys_data_rule
+        <where>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != roleId">
+                and role_id = #{roleId}
+            </if>
+            <if test="null != dataRuleId">
+                and data_rule_id = #{dataRuleId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RoleDataRulePo">
+        insert into sys_data_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            tenant_id,role_id,
+            data_rule_id
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{tenantId},#{roleId},
+            #{dataRuleId}
+        </trim>
+    </insert>
+
+    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RoleDataRulePo">
+        update sys_data_rule
+        <set>
+            <if test="null != tenantId">
+                tenant_id = #{tenantId}
+            </if>
+            <if test="null != roleId">
+                and role_id = #{roleId}
+            </if>
+            <if test="null != dataRuleId">
+                and data_rule_id = #{dataRuleId}
+            </if>
+            <if test="version != null">
+                version = #{version} + 1
+            </if>
+        </set>
+        WHERE id = #{id} and version = #{version}
+    </update>
+
+    <delete id="del" parameterType="integer">
+        delete
+        from sys_data_rule
+        where id = #{id}
+    </delete>
+</mapper>
