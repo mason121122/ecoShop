@@ -16,7 +16,7 @@ public interface RoleMapper {
     List<RolePo> find(@Param("tenantId") Long tenantId, @Param("roleId") Long roleId,
                       @Param("permissionId") Long permissionId);
 
-    List<RolePo> pageQuery(@Param("rolePo")RolePo rolePo,@Param("offset") Integer offset,
+    List<RolePo> pageQuery(@Param("rolePo")RolePo rolePo,@Param("pageIndex") Integer pageIndex,
                                      @Param("pageSize") Long pageSize);
 
     Integer pageCount(@Param("rolePo")RolePo rolePo);

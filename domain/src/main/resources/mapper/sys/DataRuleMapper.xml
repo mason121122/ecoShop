@@ -49,7 +49,7 @@
         </where>
         <if test="null != offset and null != pageSize">
             order by updated_at desc
-            LIMIT #{offset}, #{pageSize}
+            LIMIT #{pageIndex}, #{pageSize}
         </if>
     </select>
 

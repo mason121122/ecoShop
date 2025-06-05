@@ -19,7 +19,7 @@ public class PageRequest extends Base {
     // 每页显示数量
     private Integer pageSize;
 
-    public Integer getOffset() {
+    public Integer getpageIndex() {
         if (pageIndex != null && pageSize != null) {
             return pageIndex * pageSize;
         } else {

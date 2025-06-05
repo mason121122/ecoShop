@@ -15,7 +15,7 @@ import java.util.List;
 public interface PermissionMapper {
 
     List<PermissionPo> pageQuery(@Param("permissionPo")PermissionPo permissionPo,
-                                 @Param("offset") Integer offset,
+                                 @Param("pageIndex") Integer pageIndex,
                                  @Param("pageSize") Long pageSize);
 
     Integer pageCount(@Param("permissionPo")PermissionPo permissionPo);

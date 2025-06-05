@@ -4,6 +4,7 @@ import com.ecoshop.dao.mapper.sys.DataRuleMapper;
 import com.ecoshop.dao.mapper.sys.UserMapper;
 import com.ecoshop.service.sys.MappingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Copyright 2025 Vance
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@Service
 public class MappingServiceImpl implements MappingService {
     @Autowired
     private UserMapper userMapper;

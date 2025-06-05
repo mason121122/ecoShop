@@ -21,7 +21,7 @@ public class PageResponse<T> extends Base {
     private int pageIndex;
 
     // 总记录数
-    private int totalSize;
+    private int total;
 
     // 结果集
     private List<T> list;

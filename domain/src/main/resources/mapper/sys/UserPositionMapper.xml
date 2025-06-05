@@ -48,7 +48,7 @@
         select *
         from sys_user_position
         ORDER BY created_at DESC
-        LIMIT #{offset}, #{pageSize}
+        LIMIT #{pageIndex}, #{pageSize}
     </select>
     <select id="pageCount" resultType="integer">
         select count(id)

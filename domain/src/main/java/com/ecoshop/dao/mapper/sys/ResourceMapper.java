@@ -16,7 +16,7 @@ public interface ResourceMapper {
     List<ResourcePo> find(@Param("tenantId") Long tenantId, @Param("roleId") Long roleId,
                           @Param("permissionId") Long permissionId);
 
-    List<ResourcePo> pageQuery(@Param("resourcePo")ResourcePo resourcePo,@Param("offset") Integer offset,
+    List<ResourcePo> pageQuery(@Param("resourcePo")ResourcePo resourcePo,@Param("pageIndex") Integer pageIndex,
                                      @Param("pageSize") Long pageSize);
 
     Integer pageCount(@Param("resourcePo")ResourcePo resourcePo);

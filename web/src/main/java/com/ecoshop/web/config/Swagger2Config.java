@@ -1,4 +1,4 @@
-package com.ecoshop.config;
+package com.ecoshop.web.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class Swagger2Config {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo()).enable(true)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.practice"))
+                .apis(RequestHandlerSelectors.basePackage("com.ecoshop.web.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -31,8 +31,8 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         Contact contact = new Contact("", "url", "");
         return new ApiInfoBuilder()
-                .title("practice系统Restful API")
-                .description("practice系统Restful API")
+                .title("ecoshop系统Restful API")
+                .description("ecoshop系统Restful API")
                 .termsOfServiceUrl("")
                 .contact(contact)
                 .version("1.0-SNAPSHOT")

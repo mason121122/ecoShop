@@ -1,7 +1,9 @@
 package com.ecoshop.dao.mapper.sys;
 
 import com.ecoshop.dao.po.sys.UserPo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -11,10 +13,12 @@ import java.util.List;
  * @createDate 2025-05-28 15:11:26
  * @Entity generator.ecoshop.UserPo
  */
+@Mapper
 public interface UserMapper {
 
     /**
      * 根据id查询用户
+     *
      * @param id
      * @return
      */
@@ -22,18 +26,34 @@ public interface UserMapper {
 
     /**
      * 分页查询
-     * @param userPo
-     * @param offset
+     *
+     * @param username
+     * @param phone
+     * @param pageIndex
      * @param pageSize
      * @return
      */
-    List<UserPo> findUserList(@Param("userPo") UserPo userPo, @Param("offset") Integer offset,
-                         @Param("pageSize") Integer pageSize);
+    List<UserPo> pageQuery(@Param("tenantId") Long tenantId,
+                           @Param("username") String username,
+                           @Param("realName") String realName,
+                           @Param("email") String email,
+                           @Param("phone") String phone,
+                           @Param("status") Integer status,
+                           @Param("pageIndex") Integer pageIndex,
+                           @Param("pageSize") Integer pageSize);
 
-    Integer findUserCount(@Param("userPo") UserPo userPo);
+
+    Integer findUserCount(@Param("tenantId") Long tenantId,
+                          @Param("username") String username,
+                          @Param("realName") String realName,
+                          @Param("email") String email,
+                          @Param("phone") String phone,
+                          @Param("status") Integer status);
+
 
     /**
      * 新增用户
+     *
      * @param userPo
      * @return
      */
@@ -41,6 +61,7 @@ public interface UserMapper {
 
     /**
      * 编辑用户
+     *
      * @param userPo
      * @return
      */
@@ -48,6 +69,7 @@ public interface UserMapper {
 
     /**
      * 删除单个用户
+     *
      * @param id
      * @return
      */
@@ -55,6 +77,7 @@ public interface UserMapper {
 
     /**
      * 批量删除用户
+     *
      * @param ids
      * @return
      */

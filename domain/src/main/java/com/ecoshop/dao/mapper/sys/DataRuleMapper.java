@@ -14,7 +14,7 @@ import java.util.List;
 */
 public interface DataRuleMapper {
     List<DataRulePo> pageQuery(@Param("dataRulePo")DataRulePo dataRulePo,
-                               @Param("offset") Integer offset,
+                               @Param("pageIndex") Integer pageIndex,
                                @Param("pageSize") Long pageSize);
 
     Integer pageCount(@Param("dataRulePo")DataRulePo dataRulePo);

@@ -1,7 +1,7 @@
 package com.ecoshop.service.sys;
 
-import com.ecoshop.bo.sys.*;
-import com.ecoshop.dao.po.sys.ResourcePo;
+import com.ecoshop.bo.sys.ResourceBo;
+import com.ecoshop.bo.sys.RouteBo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.List;
  * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@Service
 public interface ResourcePermService {
 
 
@@ -52,10 +51,10 @@ public interface ResourcePermService {
     /**
      * 分页查询路由
      * @param routeBo
-     * @param offset
+     * @param pageIndex
      * @param pageSize
      * @return
      */
-    List<RouteBo> pageQueryRoute(RouteBo routeBo,Integer offset,Integer pageSize);
+    List<RouteBo> pageQueryRoute(RouteBo routeBo,Integer pageIndex,Integer pageSize);
 
 }

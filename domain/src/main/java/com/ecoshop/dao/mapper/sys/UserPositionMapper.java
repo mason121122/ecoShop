@@ -25,7 +25,7 @@ public interface UserPositionMapper {
                               @Param("orgId") Long orgId,@Param("positionId") Long positionId);
 
     List<UserPositionPo> pageQuery(@Param("userPosition") UserPositionPo userPositionPo,
-                                   @Param("offset") Integer offset,@Param("pageSize") Integer pageSize);
+                                   @Param("pageIndex") Integer pageIndex,@Param("pageSize") Integer pageSize);
 
     Integer pageCount(@Param("userPosition") UserPositionPo userPositionPo);
 

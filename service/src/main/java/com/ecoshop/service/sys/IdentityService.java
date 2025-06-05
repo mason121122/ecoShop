@@ -1,9 +1,9 @@
 package com.ecoshop.service.sys;
 
-import com.ecoshop.bo.sys.*;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.ecoshop.page.PageResponse;
+import com.ecoshop.vo.sys.request.UserReqVo;
+import com.ecoshop.vo.sys.response.UserRespVo;
 
 /**
  * Copyright 2025 Vance
@@ -14,7 +14,6 @@ import java.util.List;
  * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-@Service
 public interface IdentityService {
 
     /**
@@ -22,106 +21,109 @@ public interface IdentityService {
      *
      * @return
      */
-    boolean addUser(UserBo userBo);
+    boolean addUser(UserReqVo UserReqVo);
 
-    boolean editUser(UserBo userBo);
+    boolean editUser(UserReqVo UserReqVo);
 
     boolean delUser(Long id);
 
     /**
-     * 查询用户
      *
-     * @param userBo
-     * @return
-     */
-    List<UserBo> findUser(UserBo userBo);
-
-    /**
-     * 分页查询
-     *
-     * @param userBo
-     * @param offset
+     * @param tenantId
+     * @param username
+     * @param realName
+     * @param email
+     * @param phone
+     * @param status
+     * @param pageIndex
      * @param pageSize
      * @return
      */
-    List<UserBo> pageQuery(UserBo userBo, Integer offset, Integer pageSize);
+    PageResponse<UserRespVo> pageQuery(Long tenantId,
+                                       String username,
+                                       String realName,
+                                       String email,
+                                       String phone,
+                                       Integer status,
+                                       Integer pageIndex,
+                                       Integer pageSize);
 
-    /**
-     * 新增租户
-     * @param tenantBo
-     * @return
-     */
-    boolean addTenant(TenantBo tenantBo);
-
-    boolean editTenant(TenantBo tenantBo);
-
-    boolean delTenant(TenantBo tenantBo);
-
-    /**
-     * 分页查询
-     * @param tenantBo
-     * @param offset
-     * @param pageSize
-     * @return
-     */
-    List<TenantBo> pageQueryTenant(TenantBo tenantBo,Integer offset,Integer pageSize);
-
-    /**
-     * 新增岗位
-     * @param positionBo
-     * @return
-     */
-    boolean addPosition(PositionBo positionBo);
-
-    boolean editPosition(PositionBo positionBo);
-
-    boolean delPosition(PositionBo positionBo);
-
-    /**
-     * 分页查询岗位
-     * @param positionBo
-     * @param offset
-     * @param pageSize
-     * @return
-     */
-    List<PositionBo> pageQueryPosition(PositionBo positionBo,Integer offset,Integer pageSize);
-
-    /**
-     * 新增机构
-     * @param organizationBo
-     * @return
-     */
-    boolean addOrganization(OrganizationBo organizationBo);
-
-    boolean editOrganization(OrganizationBo organizationBo);
-
-    boolean delOrganization(OrganizationBo organizationBo);
-
-    /**
-     * 分页查询机构
-     * @param organizationBo
-     * @return
-     */
-    List<OrganizationBo> pageQueryOrganization(OrganizationBo organizationBo);
-
-    /**
-     * 新增角色
-     * @param roleBo
-     * @return
-     */
-    boolean addRole(RoleBo roleBo);
-
-    boolean editRole(RoleBo roleBo);
-
-    boolean delRole(RoleBo roleBo);
-
-    /**
-     * 分页查询角色
-     * @param roleBo
-     * @param offset
-     * @param pageSize
-     * @return
-     */
-    List<RoleBo> pageQueryRole(RoleBo roleBo,Integer offset,Integer pageSize);
+//    /**
+//     * 新增租户
+//     * @param tenantBo
+//     * @return
+//     */
+//    boolean addTenant(TenantBo tenantBo);
+//
+//    boolean editTenant(TenantBo tenantBo);
+//
+//    boolean delTenant(TenantBo tenantBo);
+//
+//    /**
+//     * 分页查询
+//     * @param tenantBo
+//     * @param pageIndex
+//     * @param pageSize
+//     * @return
+//     */
+//    List<TenantBo> pageQueryTenant(TenantBo tenantBo,Integer pageIndex,Integer pageSize);
+//
+//    /**
+//     * 新增岗位
+//     * @param positionBo
+//     * @return
+//     */
+//    boolean addPosition(PositionBo positionBo);
+//
+//    boolean editPosition(PositionBo positionBo);
+//
+//    boolean delPosition(PositionBo positionBo);
+//
+//    /**
+//     * 分页查询岗位
+//     * @param positionBo
+//     * @param pageIndex
+//     * @param pageSize
+//     * @return
+//     */
+//    List<PositionBo> pageQueryPosition(PositionBo positionBo,Integer pageIndex,Integer pageSize);
+//
+//    /**
+//     * 新增机构
+//     * @param organizationBo
+//     * @return
+//     */
+//    boolean addOrganization(OrganizationBo organizationBo);
+//
+//    boolean editOrganization(OrganizationBo organizationBo);
+//
+//    boolean delOrganization(OrganizationBo organizationBo);
+//
+//    /**
+//     * 分页查询机构
+//     * @param organizationBo
+//     * @return
+//     */
+//    List<OrganizationBo> pageQueryOrganization(OrganizationBo organizationBo);
+//
+//    /**
+//     * 新增角色
+//     * @param roleBo
+//     * @return
+//     */
+//    boolean addRole(RoleBo roleBo);
+//
+//    boolean editRole(RoleBo roleBo);
+//
+//    boolean delRole(RoleBo roleBo);
+//
+//    /**
+//     * 分页查询角色
+//     * @param roleBo
+//     * @param pageIndex
+//     * @param pageSize
+//     * @return
+//     */
+//    List<RoleBo> pageQueryRole(RoleBo roleBo,Integer pageIndex,Integer pageSize);
 
 }

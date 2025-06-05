@@ -164,6 +164,6 @@
             </if>
         </where>
         order by updated_at desc
-        LIMIT #{offset}, #{pageSize}
+        LIMIT #{pageIndex}, #{pageSize}
     </select>
 </mapper>

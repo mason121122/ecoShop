@@ -60,7 +60,7 @@
             and status = #{status}
         </if>
         order by updated_at desc
-        LIMIT #{offset}, #{pageSize}
+        LIMIT #{pageIndex}, #{pageSize}
     </select>
 
     <select id="pageCount" resultType="integer">

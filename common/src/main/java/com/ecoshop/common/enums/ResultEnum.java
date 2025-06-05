@@ -1,4 +1,4 @@
-package com.ecoshop.enums;
+package com.ecoshop.common.enums;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -12,13 +12,31 @@ public enum ResultEnum {
 
     SUCCESS(200, "SUCCESS", "成功"),
     PATH_NOT_FOUND(404, "PATH_NOT_FOUND", "请求地址不存在"),
+
     UNKNOWN(-1, "UNKNOWN", "未定义错误"),
 
-    PARAM_ERROR(4000, "PARAM_ERROR", "参数错误"),
-    FILE_NAME_EMPTY_ERROR(4001, "FILE_NAME_EMPTY_ERROR", "文件名不为空"),
-    FILE_SUFFIX_NAME_ERROR(4002, "FILE_SUFFIX_NAME_ERROR", "文件后缀名只能是'.csv'"),
-    FILE_CONTENT_EMPTY_ERROR(4003, "FILE_CONTENT_EMPTY_ERROR", "当前文件内容为空"),
-    FILE_COUNT_MAX_LIMIT_ERROR(4004, "FILE_COUNT_MAX_LIMIT_ERROR", "当前文件已经超过上限2000条");
+    /**
+     * 业务错误5xxx
+     */
+    SYS_ERROR(5000, "SYS_ERROR", "[系统异常]"),
+    NOT_FOUND(5001, "NOT_FOUND", "数据未找到"),
+    ADD_FAIL(5002, "ADD_FAIL", "数据添加失败"),
+    SYSTEM_IS_BUSY(5003, "SYSTEM_IS_BUSY", "亲您操作的太快了，请稍后再试"),
+    SYSTEM_DB_VERSION_ERROR(5004, "SYSTEM_DB_VERSION_ERROR", "系统繁忙，请稍后再试"),
+    EMAIL_ERROR(5005,"EMAIL_ERROR","邮箱格式不正确"),
+    STATUS_IS_NOTNULL_ERROR(5005,"STATUS_IS_NOTNULL_ERROR","状态不能为空"),
+    PHONE_ERROR(5006,"PHONE_ERROR","手机号格式不正确"),
+
+    USERNAME_IS_NOTNULL(5007,"USERNAME_IS_NOTNULL","用户名不能为空"),
+
+    USERNAME_LENGTH_ERROR(5008,"USERNAME_LENGTH_ERROR","用户名长度不能超过50"),
+
+    PASSWORD_LENGTH_ERROR(5009,"PASSWORD_LENGTH_ERROR","密码长度不能超过18"),
+    REAL_NAME_IS_NOTNULL(5010,"REAL_NAME_IS_NOTNULL","姓名不能为空"),
+
+    REAL_NAME_LENGTH_ERROR(5011,"REAL_NAME_LENGTH_ERROR","姓名长度不能超过50"),
+
+    ;
 
     private int code;
     private String message;

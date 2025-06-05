@@ -21,7 +21,7 @@ spring:
 #      username: ${database.slave.username}
 #      password: ${database.slave.password}
 mybatis:
-  mapper-locations: classpath:/mapper/*.xml
+  mapper-locations: classpath:/mapper/**/*.xml
   type-aliases-package: com.ecoshop.domain.dao.po
   configuration:
     # 不启用二级缓存，原因是连表查询会有问题
@@ -52,8 +52,12 @@ mybatis:
     log-prefix: mybatis.sql.
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+
 logging:
   level:
-    com.practice.domain.dao.mapper: DEBUG # 指定日志级别
+    root: INFO
+    com.ecoshop.dao.mapper.sys: DEBUG  # 替换为你的项目包名
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
 
 

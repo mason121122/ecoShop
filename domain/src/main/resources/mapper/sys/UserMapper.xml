@@ -21,10 +21,10 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,tenant_id,username,
+        tenant_id,username,
         password,real_name,avatar,
         email,phone,status,
-        remark,version
+        remark
     </sql>
 
     <!-- 查询单个用户 -->
@@ -35,30 +35,30 @@
     </select>
 
     <!-- 分页条件查询 -->
-    <select id="findUserList" resultMap="BaseResultMap">
+    <select id="pageQuery" resultMap="BaseResultMap">
         SELECT * FROM sys_user
         <where>
-            <if test="tenantId != null">AND tenant_id = #{tenantId}</if>
-            <if test="username != null and username != ''">AND username LIKE CONCAT(#{username}, '%')</if>
-            <if test="realName != null and realName != ''">AND real_name LIKE CONCAT(#{realName}, '%')</if>
-            <if test="email != null and email != ''">AND email = #{email}</if>
-            <if test="phone != null and phone != ''">AND phone = #{phone}</if>
-            <if test="status != null">AND status = #{status}</if>
+            <if test="null != tenantId">tenant_id = #{tenantId}</if>
+            <if test="null != username and '' != username">AND username LIKE CONCAT(#{username}, '%')</if>
+            <if test="null != realName and '' != realName">AND real_name LIKE CONCAT(#{realName}, '%')</if>
+            <if test="null != email and '' != email">AND email = #{email}</if>
+            <if test="null != phone and '' != phone">AND phone = #{phone}</if>
+            <if test="null != status">AND status = #{status}</if>
         </where>
         ORDER BY created_at DESC
-        LIMIT #{offset}, #{pageSize}
+        LIMIT #{pageIndex}, #{pageSize}
     </select>
 
     <!-- 查询总数 -->
     <select id="findUserCount" resultType="java.lang.Integer">
         SELECT COUNT(id) FROM sys_user
         <where>
-            <if test="tenantId != null">AND tenant_id = #{tenantId}</if>
-            <if test="username != null and username != ''">AND username LIKE CONCAT('%', #{username}, '%')</if>
-            <if test="realName != null and realName != ''">AND real_name LIKE CONCAT('%', #{realName}, '%')</if>
-            <if test="email != null and email != ''">AND email = #{email}</if>
-            <if test="phone != null and phone != ''">AND phone = #{phone}</if>
-            <if test="status != null">AND status = #{status}</if>
+            <if test="null != tenantId">tenant_id = #{tenantId}</if>
+            <if test="null != username and '' != username">AND username LIKE CONCAT(#{username}, '%')</if>
+            <if test="null != realName and '' != realName">AND real_name LIKE CONCAT(#{realName}, '%')</if>
+            <if test="null != email and '' != email">AND email = #{email}</if>
+            <if test="null != phone and '' != phone">AND phone = #{phone}</if>
+            <if test="null != status">AND status = #{status}</if>
         </where>
     </select>
 
@@ -70,16 +70,15 @@
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            #{tenantId},
-            #{username},
-            #{password},
-            #{realName},
-            #{avatar},
-            #{email},
-            #{phone},
-            #{status},
-            #{remark},
-            #{version}
+            #{userPo.tenantId},
+            #{userPo.username},
+            #{userPo.password},
+            #{userPo.realName},
+            #{userPo.avatar},
+            #{userPo.email},
+            #{userPo.phone},
+            #{userPo.status},
+            #{userPo.remark}
         </trim>
     </insert>
 
@@ -87,38 +86,38 @@
     <update id="editUser" parameterType="com.ecoshop.dao.po.sys.UserPo">
         UPDATE sys_user
         <set>
-            <if test="tenantId != null">
-                tenant_id = #{tenantId},
+            <if test="null != userPo.tenantId">
+                tenant_id = #{userPo.tenantId},
             </if>
-            <if test="username != null">
-                username = #{username},
+            <if test="null != userPo.username">
+                username = #{userPo.username},
             </if>
-            <if test="password != null">
-                password = #{password},
+            <if test="null != userPo.password">
+                password = #{userPo.password},
             </if>
-            <if test="realName != null">
-                real_name = #{realName},
+            <if test="null != userPo.realName">
+                real_name = #{userPo.realName},
             </if>
-            <if test="avatar != null">
-                avatar = #{avatar},
+            <if test="null != userPo.avatar">
+                avatar = #{userPo.avatar},
             </if>
-            <if test="email != null">
-                email = #{email},
+            <if test="null != userPo.email">
+                email = #{userPo.email},
             </if>
-            <if test="phone != null">
-                phone = #{phone},
+            <if test="null != userPo.phone">
+                phone = #{userPo.phone},
             </if>
-            <if test="status != null">
-                status = #{status},
+            <if test="null != userPo.status">
+                status = #{userPo.status},
             </if>
-            <if test="remark != null">
-                remark = #{remark},
+            <if test="null != userPo.remark">
+                remark = #{userPo.remark},
             </if>
-            <if test="version != null">
-                version = #{version} + 1
+            <if test="null != userPo.version">
+                version = #{userPo.version} + 1
             </if>
         </set>
-        WHERE id = #{id} and version = #{version}
+        WHERE id = #{userPo.id} and version = #{userPo.version}
     </update>
 
     <!-- 删除用户 -->

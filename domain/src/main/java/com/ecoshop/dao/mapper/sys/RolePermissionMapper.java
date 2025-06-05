@@ -16,7 +16,7 @@ public interface RolePermissionMapper {
     List<RolePermissionPo> find(@Param("tenantId") Long tenantId,@Param("roleId") Long roleId,
                                 @Param("permissionId") Long permissionId);
 
-    List<RolePermissionPo> pageQuery(@Param("rolePermissionPo")RolePermissionPo rolePermissionPo,@Param("offset") Integer offset,
+    List<RolePermissionPo> pageQuery(@Param("rolePermissionPo")RolePermissionPo rolePermissionPo,@Param("pageIndex") Integer pageIndex,
                                      @Param("pageSize") Long pageSize);
 
     Integer pageCount(@Param("rolePermissionPo")RolePermissionPo rolePermissionPo);

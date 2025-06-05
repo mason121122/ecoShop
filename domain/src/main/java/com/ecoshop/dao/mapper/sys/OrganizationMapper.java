@@ -14,7 +14,7 @@ import java.util.List;
 */
 public interface OrganizationMapper {
     List<OrganizationPo> pageQuery(@Param("organizationPo")OrganizationPo organizationPo,
-                                   @Param("offset") Integer offset,
+                                   @Param("pageIndex") Integer pageIndex,
                                    @Param("pageSize") Long pageSize);
 
     Integer pageCount(@Param("organizationPo")OrganizationPo organizationPo);

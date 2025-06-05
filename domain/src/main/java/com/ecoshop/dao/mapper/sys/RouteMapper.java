@@ -17,7 +17,7 @@ public interface RouteMapper {
     List<RoutePo> find(@Param("tenantId") Long tenantId, @Param("roleId") Long roleId,
                        @Param("permissionId") Long permissionId);
 
-    List<RoutePo> pageQuery(@Param("routePo")RoutePo routePo,@Param("offset") Integer offset,
+    List<RoutePo> pageQuery(@Param("routePo")RoutePo routePo,@Param("pageIndex") Integer pageIndex,
                            @Param("pageSize") Long pageSize);
 
     Integer pageCount(@Param("routePo")RoutePo rolePo);

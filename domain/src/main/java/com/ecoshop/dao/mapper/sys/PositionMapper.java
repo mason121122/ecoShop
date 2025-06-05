@@ -14,7 +14,7 @@ import java.util.List;
 public interface PositionMapper {
     List<RolePermissionPo> find(@Param("tenantId") Long tenantId);
 
-    List<RolePermissionPo> pageQuery(@Param("rolePermissionPo")RolePermissionPo rolePermissionPo,@Param("offset") Integer offset,
+    List<RolePermissionPo> pageQuery(@Param("rolePermissionPo")RolePermissionPo rolePermissionPo,@Param("pageIndex") Integer pageIndex,
                                      @Param("pageSize") Long pageSize);
 
     Integer pageCount(@Param("rolePermissionPo")RolePermissionPo rolePermissionPo);

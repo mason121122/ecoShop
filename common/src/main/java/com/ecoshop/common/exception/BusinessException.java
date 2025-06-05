@@ -1,6 +1,6 @@
 package com.ecoshop.common.exception;
 
-import com.ecoshop.enums.ResultEnum;
+import com.ecoshop.common.enums.ResultEnum;
 
 /**
  * @author Vance

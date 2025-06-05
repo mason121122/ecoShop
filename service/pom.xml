@@ -20,5 +20,10 @@
             <groupId>com.ecoShop</groupId>
             <artifactId>domain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ecoShop</groupId>
+            <artifactId>model</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
