@@ -15,16 +15,15 @@
         <module>domain</module>
         <module>web</module>
         <module>api</module>
-
-
+        <module>gateway</module>
+        <module>security</module>
     </modules>
 
     <properties>
-        <java.version>1.8</java.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <java.version>8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <spring-cloud.version>2020.0.4</spring-cloud.version>
         <mybatis-spring-boot.version>2.3.1</mybatis-spring-boot.version>
@@ -32,7 +31,7 @@
         <lombok.version>1.18.26</lombok.version>
         <commons-lang3.version>3.13.0</commons-lang3.version>
         <fastjson.version>2.0.38</fastjson.version> <!-- 升级到Fastjson2 -->
-        <swagger.version>3.0.0</swagger.version>
+        <swagger.version>2.9.2</swagger.version>
         <logstash.version>7.4</logstash.version>
         <maven-compiler.version>3.11.0</maven-compiler.version>
     </properties>
@@ -80,8 +79,6 @@
                 <version>${project.version}</version>
             </dependency>
 
-
-
             <!-- Spring Cloud 依赖 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -94,7 +91,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Spring Boot 核心依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -116,6 +112,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <!-- Consul 服务发现 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
+
+        <!-- Consul 配置中心（可选） -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-config</artifactId>
+        </dependency>
+
+        <!-- 健康检查 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
         <!-- 工具库 -->
@@ -140,7 +153,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version> <!-- 升级到Fastjson2 -->
+            <version>${fastjson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.esotericsoftware</groupId>
@@ -165,10 +178,17 @@
             <version>${mysql-connector.version}</version>
         </dependency>
 
-        <!-- Swagger API 文档 -->
+        <!-- Swagger2 -->
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <!-- Swagger UI -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger.version}</version>
         </dependency>
 
@@ -204,7 +224,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

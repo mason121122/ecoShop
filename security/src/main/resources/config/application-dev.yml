@@ -1,0 +1,14 @@
+port: 8082
+database:
+  master:
+    ip: localhost
+    username: root
+    password: 123456
+    port: 3306
+    base: ecoShop
+  slave:
+    ip: localhost
+    username: root
+    password: 123456
+    port: 3306
+    base: ecoShop2

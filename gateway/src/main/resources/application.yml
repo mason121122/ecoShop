@@ -1,0 +1,45 @@
+server:
+  port: ${port}
+spring:
+  main:
+    web-application-type: reactive # 设为响应式应用
+  application:
+    name: gateway-service
+  profiles:
+    active: dev
+  config:
+    import: "consul:"  # 启用 Consul 配置导入
+  cloud:
+    gateway:
+      routes:
+        - id: system-service
+          uri: lb://system-service  # 服务名，配合服务发现使用
+          predicates:
+            - Path=/users/**
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/orders/**
+    discovery:
+      tags: gateway,api-gateway
+      locator:
+        enabled: true  # 启用服务发现路由
+        lower-case-service-id: true  # 服务名小写
+    consul:
+      host: localhost      # Consul服务器地址
+      port: 8500           # Consul服务器端口
+      discovery:
+        service-name: ${spring.application.name}  # 注册到Consul的服务名
+        enabled: true                             # 启用服务发现
+        prefer-ip-address: true                   # 使用IP地址注册
+        health-check-path: /actuator/health       # 健康检查路径
+        health-check-interval: 10s                # 健康检查间隔
+  datasource:
+    url: jdbc:mysql://${database.master.ip}:${database.master.port}/${database.master.base}?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    username: ${database.master.username}
+    password: ${database.master.password}
+
+
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE

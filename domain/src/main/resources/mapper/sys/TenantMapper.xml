@@ -41,62 +41,8 @@
         </trim>
     </insert>
 
-    <!-- 插入语句 - 动态字段 -->
-    <insert id="addSelective" parameterType="com.ecoshop.dao.po.sys.TenantPo">
-        INSERT INTO sys_tenant
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">name,</if>
-            <if test="code != null">code,</if>
-            <if test="domain != null">domain,</if>
-            <if test="logo != null">logo,</if>
-            <if test="contactName != null">contact_name,</if>
-            <if test="contactPhone != null">contact_phone,</if>
-            <if test="contactEmail != null">contact_email,</if>
-            <if test="expireTime != null">expire_time,</if>
-            <if test="status != null">status,</if>
-            <if test="remark != null">remark,</if>
-            <if test="version != null">version,</if>
-            <if test="createdAt != null">created_at,</if>
-            <if test="updatedAt != null">updated_at,</if>
-        </trim>
-        VALUES
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="name != null">#{name},</if>
-            <if test="code != null">#{code},</if>
-            <if test="domain != null">#{domain},</if>
-            <if test="logo != null">#{logo},</if>
-            <if test="contactName != null">#{contactName},</if>
-            <if test="contactPhone != null">#{contactPhone},</if>
-            <if test="contactEmail != null">#{contactEmail},</if>
-            <if test="expireTime != null">#{expireTime},</if>
-            <if test="status != null">#{status},</if>
-            <if test="remark != null">#{remark},</if>
-            <if test="version != null">#{version},</if>
-            <if test="createdAt != null">#{createdAt, jdbcType=TIMESTAMP},</if>
-            <if test="updatedAt != null">#{updatedAt, jdbcType=TIMESTAMP},</if>
-        </trim>
-    </insert>
-
-    <!-- 修改语句 - 全字段更新 -->
-    <update id="editByPrimaryKey" parameterType="com.ecoshop.dao.po.sys.TenantPo">
-        UPDATE sys_tenant
-        SET name = #{name},
-        code = #{code},
-        domain = #{domain},
-        logo = #{logo},
-        contact_name = #{contactName},
-        contact_phone = #{contactPhone},
-        contact_email = #{contactEmail},
-        expire_time = #{expireTime},
-        status = #{status},
-        remark = #{remark},
-        version = #{version} + 1
-        WHERE id = #{id}
-        AND version = #{version}  <!-- 乐观锁条件 -->
-    </update>
-
     <!-- 修改语句 - 动态更新 -->
-    <update id="editBySelective" parameterType="com.ecoshop.dao.po.sys.TenantPo">
+    <update id="edit" parameterType="com.ecoshop.dao.po.sys.TenantPo">
         UPDATE sys_tenant
         <set>
             <if test="name != null">name = #{name},</if>
@@ -165,5 +111,41 @@
         </where>
         order by updated_at desc
         LIMIT #{pageIndex}, #{pageSize}
+    </select>
+
+    <select id="findCount" resultType="java.lang.Integer">
+        select (id) from sys_tenant
+        <where>
+            <if test="tenantPo.id != null and tenantPo.id != 0">
+                and tenantPo.id = #{id}
+            </if>
+            <if test="tenantPo.name != null and tenantPo.name != ''">
+                and name = #{tenantPo.name}
+            </if>
+            <if test="tenantPo.code != null and tenantPo.code != ''">
+                and code = #{tenantPo.code}
+            </if>
+            <if test="tenantPo.domain != null and tenantPo.domain != ''">
+                and domain = #{tenantPo.domain}
+            </if>
+            <if test="tenantPo.contactName != null and tenantPo.contactName != ''">
+                and contact_name = #{tenantPo.contactName}
+            </if>
+            <if test="tenantPo.contactPhone != null and tenantPo.contactPhone != ''">
+                and contact_phone = #{tenantPo.contactPhone}
+            </if>
+            <if test="tenantPo.contactEmail != null and tenantPo.contactEmail != ''">
+                and contact_email = #{tenantPo.contactEmail}
+            </if>
+            <if test="tenantPo.status != null and tenantPo.status != ''">
+                and status = #{tenantPo.status}
+            </if>
+            <if test="beginTime != null">
+                and expire_time &lt; #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and expire_time &gt; #{endTime}
+            </if>
+        </where>
     </select>
 </mapper>

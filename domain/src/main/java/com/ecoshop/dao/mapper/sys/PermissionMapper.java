@@ -2,6 +2,7 @@ package com.ecoshop.dao.mapper.sys;
 
 import com.ecoshop.dao.po.sys.PermissionPo;
 import com.ecoshop.dao.po.sys.RolePermissionPo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 * @createDate 2025-05-28 15:11:26
 * @Entity generator.ecoshop.PermissionPo
 */
+@Mapper
 public interface PermissionMapper {
 
     List<PermissionPo> pageQuery(@Param("permissionPo")PermissionPo permissionPo,

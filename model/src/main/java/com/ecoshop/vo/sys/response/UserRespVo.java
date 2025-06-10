@@ -29,7 +29,7 @@ public class UserRespVo {
     /**
      * 密码
      */
-//    private String password;
+    private String password;
 
     /**
      * 真实姓名

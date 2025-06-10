@@ -2,6 +2,7 @@ package com.ecoshop.dao.mapper.sys;
 
 import com.ecoshop.dao.po.sys.ResourceRoutePo;
 import com.ecoshop.dao.po.sys.RoleDataRulePo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 * @createDate 2025-05-28 15:11:26
 * @Entity generator.ecoshop.ResourceRoutePo
 */
+@Mapper
 public interface ResourceRouteMapper {
     List<ResourceRoutePo> find(@Param("tenantId") Long tenantId, @Param("roleId") Long roleId,
                                @Param("permissionId") Long permissionId);

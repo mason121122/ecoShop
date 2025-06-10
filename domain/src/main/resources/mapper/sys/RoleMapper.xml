@@ -108,7 +108,7 @@
                 and code = #{code}
             </if>
             <if test="null != description">
-                and description = #{description}
+                and notes = #{description}
             </if>
             <if test="null != dataScope">
                 and data_scope = #{dataScope}

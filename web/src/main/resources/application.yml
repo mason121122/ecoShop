@@ -2,9 +2,17 @@ server:
   port: ${port}
 
 spring:
+#  mvc:
+#    favicon:
+#      enabled: false
+  application:
+    name: system-service
   profiles:
     active: dev
+  config:
+    import: "consul:"  # 启用 Consul 配置导入
 
+#########################################数据库################################################################
   datasource:
     url: jdbc:mysql://${database.master.ip}:${database.master.port}/${database.master.base}?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     username: ${database.master.username}
@@ -20,6 +28,29 @@ spring:
 #      jdbc-url: jdbc:mysql://${database.slave.ip}:${database.slave.port}/${database.slave.base}?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
 #      username: ${database.slave.username}
 #      password: ${database.slave.password}
+
+#########################################Consul################################################################
+  cloud:
+    discovery:
+      locator:
+        enabled: true  # 启用服务发现路由
+        lower-case-service-id: true  # 服务名小写
+    consul:
+      host: localhost      # Consul服务器地址
+      port: 8500           # Consul服务器端口
+      discovery:
+        service-name: ${spring.application.name}  # 注册到Consul的服务名
+        enabled: true                             # 启用服务发现
+        prefer-ip-address: true                   # 使用IP地址注册
+        health-check-path: /actuator/health       # 健康检查路径
+        health-check-interval: 10s                # 健康检查间隔
+
+#########################################Redis################################################################
+
+
+
+
+#########################################Mybatis################################################################
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
   type-aliases-package: com.ecoshop.domain.dao.po
@@ -52,12 +83,19 @@ mybatis:
     log-prefix: mybatis.sql.
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+#########################################swagger2################################################################
 
+swagger2:
+  enable: true
+
+
+#########################################logback################################################################
 logging:
   level:
     root: INFO
-    com.ecoshop.dao.mapper.sys: DEBUG  # 替换为你的项目包名
+    com.ecoshop.dao.mapper.sys: DEBUG
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    dateformat: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
 
 

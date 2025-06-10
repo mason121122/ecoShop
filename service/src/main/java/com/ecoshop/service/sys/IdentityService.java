@@ -2,8 +2,14 @@ package com.ecoshop.service.sys;
 
 
 import com.ecoshop.page.PageResponse;
+import com.ecoshop.vo.sys.request.OrganizationReqVo;
+import com.ecoshop.vo.sys.request.TenantReqVo;
 import com.ecoshop.vo.sys.request.UserReqVo;
+import com.ecoshop.vo.sys.response.OrganizationRespVo;
+import com.ecoshop.vo.sys.response.TenantRespVo;
 import com.ecoshop.vo.sys.response.UserRespVo;
+
+import java.util.Date;
 
 /**
  * Copyright 2025 Vance
@@ -28,7 +34,6 @@ public interface IdentityService {
     boolean delUser(Long id);
 
     /**
-     *
      * @param tenantId
      * @param username
      * @param realName
@@ -48,26 +53,63 @@ public interface IdentityService {
                                        Integer pageIndex,
                                        Integer pageSize);
 
-//    /**
-//     * 新增租户
-//     * @param tenantBo
-//     * @return
-//     */
-//    boolean addTenant(TenantBo tenantBo);
-//
-//    boolean editTenant(TenantBo tenantBo);
-//
-//    boolean delTenant(TenantBo tenantBo);
-//
-//    /**
-//     * 分页查询
-//     * @param tenantBo
-//     * @param pageIndex
-//     * @param pageSize
-//     * @return
-//     */
-//    List<TenantBo> pageQueryTenant(TenantBo tenantBo,Integer pageIndex,Integer pageSize);
-//
+    PageResponse<UserRespVo> pageQuery(Long tenantId,
+                                       String username);
+
+    /**
+     * 新增租户
+     *
+     * @param tenantReqVo
+     * @return
+     */
+    boolean addTenant(TenantReqVo tenantReqVo);
+
+    boolean editTenant(TenantReqVo tenantReqVo);
+
+    boolean delTenant(Long id);
+
+    /**
+     * 分页查询
+     *
+     * @param name
+     * @param code
+     * @param contactName
+     * @param contactPhone
+     * @param expireBeginTime
+     * @param expireEndTime
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    PageResponse<TenantRespVo> pageQueryTenant(String name,
+                                               String code,
+                                               String contactName,
+                                               String contactPhone,
+                                               Date expireBeginTime,
+                                               Date expireEndTime,
+                                               Integer pageIndex,
+                                               Integer pageSize);
+
+
+
+    /**
+     * 新增机构
+     * @param organizationBo
+     * @return
+     */
+    boolean addOrganization(OrganizationReqVo organizationBo);
+
+    boolean editOrganization(OrganizationReqVo organizationBo);
+
+    boolean delOrganization(OrganizationReqVo organizationBo);
+
+    /**
+     * 分页查询机构
+     * @param organizationReqVo
+     * @return
+     */
+    PageResponse<OrganizationRespVo> pageQueryOrganization(OrganizationReqVo organizationReqVo);
+
 //    /**
 //     * 新增岗位
 //     * @param positionBo
@@ -87,24 +129,7 @@ public interface IdentityService {
 //     * @return
 //     */
 //    List<PositionBo> pageQueryPosition(PositionBo positionBo,Integer pageIndex,Integer pageSize);
-//
-//    /**
-//     * 新增机构
-//     * @param organizationBo
-//     * @return
-//     */
-//    boolean addOrganization(OrganizationBo organizationBo);
-//
-//    boolean editOrganization(OrganizationBo organizationBo);
-//
-//    boolean delOrganization(OrganizationBo organizationBo);
-//
-//    /**
-//     * 分页查询机构
-//     * @param organizationBo
-//     * @return
-//     */
-//    List<OrganizationBo> pageQueryOrganization(OrganizationBo organizationBo);
+
 //
 //    /**
 //     * 新增角色

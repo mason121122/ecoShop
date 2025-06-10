@@ -38,7 +38,7 @@
                 and code = #{code}
             </if>
             <if test="null != description">
-                and description = #{description}
+                and notes = #{description}
             </if>
             <if test="null != ruleCondition">
                 and rule_condition = #{ruleCondition}
@@ -67,7 +67,7 @@
                 and code = #{code}
             </if>
             <if test="null != description">
-                and description = #{description}
+                and notes = #{description}
             </if>
             <if test="null != ruleCondition">
                 and rule_condition = #{ruleCondition}
@@ -106,7 +106,7 @@
                 and code = #{code}
             </if>
             <if test="null != description">
-                and description = #{description}
+                and notes = #{description}
             </if>
             <if test="null != ruleCondition">
                 and rule_condition = #{ruleCondition}

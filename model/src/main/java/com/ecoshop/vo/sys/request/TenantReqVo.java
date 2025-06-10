@@ -1,8 +1,13 @@
 package com.ecoshop.vo.sys.request;
 
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -19,6 +24,9 @@ public class TenantReqVo {
     /**
      * 租户名称
      */
+    @ApiModelProperty("用户名")
+    @NotNull(message = "TENANT_NAME_IS_NOTNULL")
+    @Size(max = 50, message = "TENANT_NAME_LENGTH_ERROR")
     private String name;
 
     /**
@@ -39,16 +47,23 @@ public class TenantReqVo {
     /**
      * 联系人
      */
+    @ApiModelProperty("联系人")
+    @NotNull(message = "CONTACT_NAME_IS_NOTNULL")
     private String contactName;
 
     /**
      * 联系电话
      */
+    @ApiModelProperty("联系电话")
+    @NotNull(message = "PHONE_IS_NOTNULL")
+    @Pattern(regexp = "^1[3-9]\\d{9}$", message = "PHONE_ERROR")
     private String contactPhone;
 
     /**
      * 联系邮箱
      */
+    @ApiModelProperty("邮箱")
+    @Email(message = "EMAIL_ERROR")
     private String contactEmail;
 
     /**
@@ -59,6 +74,8 @@ public class TenantReqVo {
     /**
      * 状态(1:正常,0:禁用)
      */
+    @ApiModelProperty("状态(1:正常,0:禁用)")
+    @NotNull(message = "STATUS_IS_NOTNULL_ERROR")
     private Integer status;
 
     /**

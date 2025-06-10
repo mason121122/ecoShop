@@ -1,0 +1,119 @@
+server:
+  port: ${port}
+
+spring:
+  application:
+    name: security-service
+  profiles:
+    active: dev
+  config:
+    import: "consul:"  # 启用 Consul 配置导入
+
+  #########################################数据库################################################################
+  datasource:
+    url: jdbc:mysql://${database.master.ip}:${database.master.port}/${database.master.base}?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    username: ${database.master.username}
+    password: ${database.master.password}
+    # master
+    #    master:
+    #      jdbc-url: jdbc:mysql://${database.master.ip}:${database.master.port}/${database.master.base}?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    #      username: ${database.master.username}
+    #      password: ${database.master.password}
+
+    # slave
+  #    slave:
+  #      jdbc-url: jdbc:mysql://${database.slave.ip}:${database.slave.port}/${database.slave.base}?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+  #      username: ${database.slave.username}
+  #      password: ${database.slave.password}
+
+  #########################################Consul################################################################
+  cloud:
+    discovery:
+      locator:
+        enabled: true  # 启用服务发现路由
+        lower-case-service-id: true  # 服务名小写
+    consul:
+      host: localhost      # Consul服务器地址
+      port: 8500           # Consul服务器端口
+      discovery:
+        service-name: ${spring.application.name}  # 注册到Consul的服务名
+        enabled: true                             # 启用服务发现
+        prefer-ip-address: true                   # 使用IP地址注册
+        health-check-path: /actuator/health       # 健康检查路径
+        health-check-interval: 10s                # 健康检查间隔
+
+  #########################################Redis################################################################
+  #Redis服务器地址和端口
+  data:
+    redis:
+      port: 6379
+      host: localhost
+      password: 123456
+  #    cluster:
+  #      nodes:
+  #        - localhost:6379
+      # Redis默认情况下有16个分片，配置具体使用的分片，默认为0
+      database: 0
+      lettuce:
+        pool:
+          # 连接池最大连接数 默认8 ，负数表示没有限制
+          max-active: 8
+          # 连接池最大阻塞等待时间（使用负值表示没有限制） 默认-1
+          max-wait: -1
+          # 连接池中的最大空闲连接 默认8
+          max-idle: 8
+          # 连接池中的最小空闲连接 默认0
+          min-idle: 0
+
+
+
+
+#########################################Mybatis################################################################
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.ecoshop.domain.dao.po
+  configuration:
+    # 不启用二级缓存，原因是连表查询会有问题
+    cache-enabled: false
+    # 查询时，关闭关联对象即时加载以提高性能
+    lazy-loading-enabled: true
+    # 设置关联对象加载的形态，此处为按需加载字段(加载字段由SQL指定)，不会加载关联表的所有字段，以提高性能
+    aggressive-lazy-loading: false
+    # 对于未知的SQL查询，允许返回不同的结果集以达到通用的效果
+    multiple-result-sets-enabled: true
+    # 允许使用列标签代替列名
+    use-column-label: true
+    # 允许使用自定义的主键值(比如由程序生成的UUID 32位编码作为键值)，数据表的PK生成策略将被覆盖
+    use-generated-keys: true
+    # 给予被嵌套的resultMap以字段-属性的映射支持(NONE, PARTIAL, FULL)
+    auto-mapping-behavior: FULL
+    # 配置默认的执行器，SIMPLE 执行器没有什么特别之处，REUSE 执行器重用预处理语句，BATCH 执行器重用语句和批量更新
+    default-executor-type: REUSE
+    # 据库超过180秒仍未响应则超时
+    default-statement-timeout: 180
+    # 是否启用下划线与驼峰式命名规则的映射（如first_name => firstName）
+    map-underscore-to-camel-case: true
+    # 不使用SESSION，原因是多个服务器时会出现问题
+    default-fetch-size: 200
+    local-cache-scope: STATEMENT
+    jdbc-type-for-null: OTHER
+    lazy-load-trigger-methods: equals,clone,hashCode,toString
+    log-prefix: mybatis.sql.
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#########################################swagger2################################################################
+
+swagger2:
+  enable: true
+
+
+#########################################logback################################################################
+logging:
+  level:
+    root: INFO
+    com.ecoshop.dao.mapper.sys: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+
+

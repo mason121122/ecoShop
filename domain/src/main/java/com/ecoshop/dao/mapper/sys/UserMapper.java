@@ -50,6 +50,8 @@ public interface UserMapper {
                           @Param("phone") String phone,
                           @Param("status") Integer status);
 
+    UserPo login(@Param("username") String username,@Param("password") String password);
+
 
     /**
      * 新增用户

@@ -1,9 +1,12 @@
 package com.ecoshop.dao.mapper.sys;
 
 import com.ecoshop.dao.po.sys.TenantPo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
+import java.util.List;
+
 
 /**
 * @author Vance
@@ -11,6 +14,7 @@ import java.util.Date;
 * @createDate 2025-05-28 15:11:26
 * @Entity generator.ecoshop.TenantPo
 */
+@Mapper
 public interface TenantMapper {
 
     /**
@@ -22,11 +26,31 @@ public interface TenantMapper {
 
     /**
      * 多条件查询
-     * @param tenantPo
+     * @param name
+     * @param code
+     * @param contactName
+     * @param contactPhone
+     * @param expireBeginTime
+     * @param expireEndTime
+     * @param pageIndex
+     * @param pageSize
      * @return
      */
-    TenantPo pageQuery(@Param("tenantPo") TenantPo tenantPo, @Param("beginTime")Date beginTime,@Param("endTime")Date endTime);
+    List<TenantPo> pageQuery(@Param("id") String name,
+                             @Param("id") String code,
+                             @Param("id") String contactName,
+                             @Param("id") String contactPhone,
+                             @Param("id") Date expireBeginTime,
+                             @Param("id") Date expireEndTime,
+                             @Param("id") Integer pageIndex,
+                             @Param("id") Integer pageSize);
 
+    Integer findCount(@Param("id") String name,
+                             @Param("id") String code,
+                             @Param("id") String contactName,
+                             @Param("id") String contactPhone,
+                             @Param("id") Date expireBeginTime,
+                             @Param("id") Date expireEndTime);
     /**
      * 插入语句 - 全字段插入
      * @param tenantPo
@@ -34,26 +58,13 @@ public interface TenantMapper {
      */
     int add(@Param("tenantPo") TenantPo tenantPo);
 
-    /**
-     * 插入语句 - 动态字段
-     * @param tenantPo
-     * @return
-     */
-    int addSelective(@Param("tenantPo") TenantPo tenantPo);
-
-    /**
-     * 修改语句 - 全字段更新
-     * @param tenantPo
-     * @return
-     */
-    int editByPrimaryKey(@Param("tenantPo") TenantPo tenantPo);
 
     /**
      * 修改语句 - 动态更新
      * @param tenantPo
      * @return
      */
-    int editBySelective(@Param("tenantPo") TenantPo tenantPo);
+    int edit(@Param("tenantPo") TenantPo tenantPo);
 
     /**
      * 删除语句 - 逻辑删除（更新状态）

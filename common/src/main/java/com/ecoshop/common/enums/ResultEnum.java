@@ -36,6 +36,15 @@ public enum ResultEnum {
 
     REAL_NAME_LENGTH_ERROR(5011,"REAL_NAME_LENGTH_ERROR","姓名长度不能超过50"),
 
+    TENANT_NAME_IS_NOTNULL(5012,"TENANT_NAME_IS_NOTNULL","租户名不能为空"),
+
+    TENANT_NAME_LENGTH_ERROR(5013,"TENANT_NAME_LENGTH_ERROR","租户名长度不能超过50"),
+
+    CONTACT_NAME_IS_NOTNULL(5014,"CONTACT_NAME_IS_NOTNULL","联系人不能为空"),
+
+    PHONE_IS_NOTNULL(5006,"PHONE_IS_NOTNULL","手机号格式不正确"),
+
+
     ;
 
     private int code;

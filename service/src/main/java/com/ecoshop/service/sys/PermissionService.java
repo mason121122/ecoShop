@@ -1,7 +1,5 @@
 package com.ecoshop.service.sys;
 
-import org.springframework.stereotype.Service;
-
 /**
  * Copyright 2025 Vance
  * <p>
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Service;
  * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-public interface MappingService {
+public interface PermissionService {
 
     /**
      * 租户-用户-机构-岗位

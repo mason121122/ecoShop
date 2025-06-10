@@ -52,7 +52,7 @@
                 and level = #{level}
             </if>
             <if test="null != description">
-                and description = #{description}
+                and notes = #{description}
             </if>
             <if test="null != status">
                 and status = #{status}
@@ -64,7 +64,7 @@
                 and remark = #{remark}
             </if>
         </where>
-        <if test="null != offset and null != pageSize">
+        <if test="null != pageIndex and null != pageSize">
             order by updated_at desc
             LIMIT #{pageIndex}, #{pageSize}
         </if>
@@ -91,7 +91,7 @@
                 and level = #{level}
             </if>
             <if test="null != description">
-                and description = #{description}
+                and notes = #{description}
             </if>
             <if test="null != status">
                 and status = #{status}
@@ -140,7 +140,7 @@
                 and level = #{level}
             </if>
             <if test="null != description">
-                and description = #{description}
+                and notes = #{description}
             </if>
             <if test="null != status">
                 and status = #{status}

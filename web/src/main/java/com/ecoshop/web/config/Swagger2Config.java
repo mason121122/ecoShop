@@ -11,6 +11,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+
 /**
  * @author Vance
  * @date 2021/10/3
@@ -20,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class Swagger2Config {
     @Bean
     public Docket docket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo()).enable(true)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ecoshop.web.controller"))
