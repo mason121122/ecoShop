@@ -10,8 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@SpringBootApplication
-@ComponentScan(basePackages = { "com.ecoshop"})
+@SpringBootApplication(scanBasePackages = "com.ecoshop")
 @MapperScan("com.ecoshop.dao.mapper") //扫描的mapper
 public class AuthApplication {
 
@@ -20,8 +19,8 @@ public class AuthApplication {
     }
 
     // 密码编码器，用于加密密码
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }    

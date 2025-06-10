@@ -17,11 +17,6 @@
             <artifactId>service</artifactId>
         </dependency>
 
-        <!-- Spring Boot 核心依赖 -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>

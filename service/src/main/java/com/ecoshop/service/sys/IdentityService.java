@@ -53,9 +53,6 @@ public interface IdentityService {
                                        Integer pageIndex,
                                        Integer pageSize);
 
-    PageResponse<UserRespVo> pageQuery(Long tenantId,
-                                       String username);
-
     /**
      * 新增租户
      *

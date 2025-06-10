@@ -3,6 +3,7 @@ package com.ecoshop.dao.mapper.sys;
 import com.ecoshop.dao.po.sys.TenantPo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 * @Entity generator.ecoshop.TenantPo
 */
 @Mapper
+@Repository
 public interface TenantMapper {
 
     /**

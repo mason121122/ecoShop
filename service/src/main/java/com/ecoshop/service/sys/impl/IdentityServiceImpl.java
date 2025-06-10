@@ -62,11 +62,6 @@ public class IdentityServiceImpl implements IdentityService {
         return result;
     }
 
-    public PageResponse<UserRespVo> pageQuery(Long tenantId,
-                                       String username){
-        return pageQuery(null,username,null,null,null,null,null,null);
-    }
-
     //===================================================租户管理=============================================================================================================
     @Override
     public boolean addTenant(TenantReqVo tenantReqVo) {

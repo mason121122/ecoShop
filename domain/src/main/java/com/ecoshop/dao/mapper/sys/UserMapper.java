@@ -3,7 +3,7 @@ package com.ecoshop.dao.mapper.sys;
 import com.ecoshop.dao.po.sys.UserPo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ import java.util.List;
  * @Entity generator.ecoshop.UserPo
  */
 @Mapper
+@Repository
 public interface UserMapper {
 
     /**
@@ -41,6 +42,8 @@ public interface UserMapper {
                            @Param("status") Integer status,
                            @Param("pageIndex") Integer pageIndex,
                            @Param("pageSize") Integer pageSize);
+
+    UserPo pageQuery(@Param("username") String username);
 
 
     Integer findUserCount(@Param("tenantId") Long tenantId,
