@@ -14,6 +14,7 @@ import com.ecoshop.vo.sys.response.OrganizationRespVo;
 import com.ecoshop.vo.sys.response.TenantRespVo;
 import com.ecoshop.vo.sys.response.UserRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,13 +27,18 @@ public class IdentityServiceImpl implements IdentityService {
     @Autowired
     private TenantMapper tenantMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     //===================================================用户管理=============================================================================================================
     @Override
     public boolean addUser(UserReqVo UserReqVo) {
         UserPo userPo = ClazzConverter.converterClass(UserReqVo, UserPo.class);
         long timestamp = System.currentTimeMillis();
         userPo.setTenantId(timestamp);
-        userPo.setPassword("123456");
+        //此处是系统管理员创建中台用户，并不是注册。默认密码123456
+        String encodedPassword = passwordEncoder.encode("123456");
+        userPo.setPassword(encodedPassword);
         return userMapper.addUser(userPo) > 0;
     }
 
@@ -44,6 +50,11 @@ public class IdentityServiceImpl implements IdentityService {
     @Override
     public boolean delUser(Long id) {
         return userMapper.delUser(id) > 0;
+    }
+
+    @Override
+    public UserPo findByUserName(String userName) {
+        return userMapper.findByUserName(userName);
     }
 
     @Override

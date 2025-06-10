@@ -67,6 +67,12 @@
         SELECT * FROM sys_user
         where username = #{username}
         and password = #{password}
+        and status = 1
+    </select>
+
+    <select id="findByUserName" resultType="com.ecoshop.dao.po.sys.UserPo">
+        SELECT * FROM sys_user
+        where username = #{username}
     </select>
 
     <!-- 插入用户 -->

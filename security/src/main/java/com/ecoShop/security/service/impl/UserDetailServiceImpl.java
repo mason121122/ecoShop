@@ -1,8 +1,9 @@
-package com.ecoshop.service.security;
+package com.ecoShop.security.service.impl;
 
+import com.ecoShop.security.dto.UserDetailsDto;
 import com.ecoshop.common.utils.ClazzConverter;
 import com.ecoshop.dao.mapper.sys.UserMapper;
-import com.ecoshop.dto.UserDetailsDto;
+import com.ecoshop.dao.po.sys.UserPo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +17,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username){
-        UserDetailsDto userDetailsDto = ClazzConverter.converterClass(userMapper.pageQuery(username), UserDetailsDto.class);
+        UserPo userPo = userMapper.findByUserName(username);
+        UserDetailsDto userDetailsDto = ClazzConverter.converterClass(userPo, UserDetailsDto.class);
         if(null == userDetailsDto){
             throw new UsernameNotFoundException("用户不存在");
         }

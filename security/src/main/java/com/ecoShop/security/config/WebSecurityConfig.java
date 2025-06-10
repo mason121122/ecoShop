@@ -1,7 +1,6 @@
 package com.ecoShop.security.config;
 
 import com.ecoShop.security.filter.JwtRequestFilter;
-import com.ecoshop.service.sys.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,16 +45,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // 禁用 CSRF 保护，因为我们使用 JWT
-        httpSecurity.csrf().disable()
+        httpSecurity
+                .csrf().disable()
                 // 允许访问 /authenticate 和 /register 端点
-                .authorizeRequests().antMatchers("/authenticate", "/register", "/actuator/**").permitAll()
+                .authorizeRequests().antMatchers(
+                        "/",
+                        "/api/login",
+                        "/authenticate",
+                        "/register",
+                        "/actuator/**",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v2/api-docs/**",
+                        "/swagger-resources/**",
+                        "/webjars/**")
+                .permitAll()
                 // 其他所有请求需要认证
                 .anyRequest().authenticated()
+//                .antMatchers("/api/**").authenticated()
                 .and()
                 // 禁用 session 管理
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+
         // 添加 JWT 过滤器
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+//        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -31,6 +31,9 @@ public class IdentityController {
     @ApiOperation(value = "创建中台用户", notes = "创建中台用户")
     @RequestMapping(value = "/addUser", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ReturnResult<?> addUser(@RequestBody @Valid UserReqVo UserReqVo){
+        if(null != identityService.findByUserName(UserReqVo.getUsername())){
+            return new ReturnResult<>(ResultEnum.USERNAME_REPETITION.getCode(),ResultEnum.USERNAME_REPETITION.getDesc());
+        }
         if(identityService.addUser(UserReqVo)){
             return new ReturnResult<>(ResultEnum.SUCCESS.getCode(),ResultEnum.SUCCESS.getDesc());
         }else{

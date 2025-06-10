@@ -33,7 +33,15 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
 
         // 检查是否是健康检查请求
-        if (uri.startsWith("/actuator/")) {
+        if (uri.startsWith("/csrf") ||
+                uri.startsWith("/actuator/") ||
+                uri.startsWith("/swagger-ui.html") ||
+                uri.startsWith("/swagger-ui/") ||
+                uri.startsWith("/v2/api-docs") ||
+                uri.startsWith("/swagger-resources/") ||
+                uri.startsWith("/swagger-resources") ||
+                uri.startsWith("/webjars/") ||
+                uri.startsWith("/api/login")) {
             // 直接放行健康检查请求，不进行JWT验证
             chain.doFilter(request, response);
             return;
@@ -55,7 +63,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 System.out.println("JWT Token has expired");
             }
         } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+            logger.warn(uri + " JWT Token does not begin with Bearer String");
         }
 
         // 验证 Token

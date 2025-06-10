@@ -1,6 +1,6 @@
-package com.ecoshop.service.sys;
+package com.ecoShop.security.service;
 
-import com.ecoshop.dto.UserDetailsDto;
+import com.ecoShop.security.dto.UserDetailsDto;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public interface LoginService {

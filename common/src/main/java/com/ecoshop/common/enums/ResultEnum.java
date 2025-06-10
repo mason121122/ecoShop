@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public enum ResultEnum {
 
     SUCCESS(200, "SUCCESS", "成功"),
+    LOGIN_ERR(401, "LOGIN_ERR", "登入失败"),
     PATH_NOT_FOUND(404, "PATH_NOT_FOUND", "请求地址不存在"),
 
     UNKNOWN(-1, "UNKNOWN", "未定义错误"),
@@ -42,7 +43,9 @@ public enum ResultEnum {
 
     CONTACT_NAME_IS_NOTNULL(5014,"CONTACT_NAME_IS_NOTNULL","联系人不能为空"),
 
-    PHONE_IS_NOTNULL(5006,"PHONE_IS_NOTNULL","手机号格式不正确"),
+    PHONE_IS_NOTNULL(5015,"PHONE_IS_NOTNULL","手机号格式不正确"),
+
+    USERNAME_REPETITION(5016,"USERNAME_REPETITION","用户名已存在"),
 
 
     ;

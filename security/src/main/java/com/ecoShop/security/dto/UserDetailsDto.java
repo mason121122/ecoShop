@@ -1,4 +1,4 @@
-package com.ecoshop.dto;
+package com.ecoShop.security.dto;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,21 +30,21 @@ public class UserDetailsDto implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

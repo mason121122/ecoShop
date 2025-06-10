@@ -1,6 +1,7 @@
 package com.ecoshop.service.sys;
 
 
+import com.ecoshop.dao.po.sys.UserPo;
 import com.ecoshop.page.PageResponse;
 import com.ecoshop.vo.sys.request.OrganizationReqVo;
 import com.ecoshop.vo.sys.request.TenantReqVo;
@@ -32,6 +33,8 @@ public interface IdentityService {
     boolean editUser(UserReqVo UserReqVo);
 
     boolean delUser(Long id);
+
+    UserPo findByUserName(String userName);
 
     /**
      * @param tenantId

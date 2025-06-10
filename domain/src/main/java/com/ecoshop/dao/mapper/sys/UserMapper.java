@@ -55,6 +55,8 @@ public interface UserMapper {
 
     UserPo login(@Param("username") String username,@Param("password") String password);
 
+    UserPo findByUserName(@Param("username") String username);
+
 
     /**
      * 新增用户
