@@ -8,6 +8,11 @@ import java.util.Collection;
 
 @Data
 public class UserDetailsDto implements UserDetails {
+
+    /**
+     * 用户id
+     */
+    private Long id;
     /**
      * 租户ID
      */
@@ -22,6 +27,26 @@ public class UserDetailsDto implements UserDetails {
      * 密码
      */
     private String password;
+
+    /**
+     * 真实姓名
+     */
+    private String realName;
+
+    /**
+     * 邮箱
+     */
+    private String email;
+
+    /**
+     * 手机号
+     */
+    private String phone;
+
+    /**
+     * 状态(1:正常,0:禁用)
+     */
+    private Integer status;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -2,9 +2,11 @@ package com.ecoShop.security.web;
 
 import com.ecoShop.security.dto.PermissionRequest;
 import com.ecoShop.security.dto.PermissionResponse;
+import com.ecoShop.security.dto.UserDetailsDto;
 import com.ecoShop.security.service.LoginService;
 import com.ecoShop.security.utils.JwtUtil;
 import com.ecoshop.common.enums.ResultEnum;
+import com.ecoshop.common.utils.ClazzConverter;
 import com.ecoshop.support.ReturnResult;
 import com.ecoshop.vo.sys.request.UserReqVo;
 import io.swagger.annotations.Api;
@@ -58,10 +60,10 @@ public class AuthController {
         }
 
         // 2. 加载用户信息
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(name);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(name);
 
         // 3. 生成 JWT Token
-        final String jwt = jwtUtil.generateToken(userDetails);
+        String jwt = jwtUtil.generateToken(ClazzConverter.converterClass(userDetails, UserDetailsDto.class));
         loginService.saveToken(userDetails.getUsername(),jwt);
         return new ReturnResult<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getDesc(), jwt);
     }
@@ -85,29 +87,9 @@ public class AuthController {
         UserDetails userDetails = userDetailsService.loadUserByUsername(userReqVo.getUsername());
 
         // 3. 生成 JWT Token
-        String jwt = jwtUtil.generateToken(userDetails);
+        String jwt = jwtUtil.generateToken(ClazzConverter.converterClass(userDetails, UserDetailsDto.class));
         loginService.saveToken(userDetails.getUsername(),jwt);
         return new ReturnResult<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getDesc(), jwt);
     }
 
-
-    @GetMapping("/verify-permission/{token}/{url}")
-    public ReturnResult<?> verifyPermission(@ApiParam(value = "token", required = false) @RequestParam(value = "token", required = false) String token,
-                                            @ApiParam(value = "url", required = false) @RequestParam(value = "url", required = false) String url) {
-        try {
-            // 解析JWT令牌
-            Map<String, Object> claims = jwtUtil.validateToken(token);
-
-            Map<String,Object> map = new HashMap<>();
-
-            String userId = (String) claims.get("sub");
-            String[] roles = ((String) claims.get("roles")).split(",");
-            String[] permissions = ((String) claims.get("permissions")).split(",");
-            map.put("userId",userId);
-
-            return new ReturnResult<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getDesc(), map);
-        } catch (Exception e) {
-            return new ReturnResult<>(ResultEnum.LOGIN_ERR.getCode(), ResultEnum.LOGIN_ERR.getDesc());
-        }
-    }
 }

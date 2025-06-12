@@ -3,7 +3,7 @@ package com.ecoShop.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -18,10 +18,10 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1小时
 
     // 生成JWT Token
-    public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
-    }
+//    public String generateToken(UserDetails userDetails) {
+//        Map<String, Object> claims = new HashMap<>();
+//        return createToken(claims, userDetails.getUsername());
+//    }
 
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
@@ -34,15 +34,9 @@ public class JwtUtil {
     }
 
     // 验证Token
-    public Boolean validateToken(String token, UserDetails userDetails) {
-        String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    public Claims validateToken(String token) {
-        Claims claims = extractAllClaims(token);
-        claims.getSubject();
-        return claims;
+    public Boolean validateToken(String token) {
+        Date expiration = extractExpiration(token);
+        return !expiration.before(new Date());
     }
 
     // 提取用户名
@@ -54,6 +48,7 @@ public class JwtUtil {
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
+
 
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         Claims claims = extractAllClaims(token);

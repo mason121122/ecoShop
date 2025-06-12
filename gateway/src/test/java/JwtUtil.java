@@ -1,7 +1,4 @@
-package com.ecoShop.security.utils;
-
 import com.alibaba.fastjson2.JSON;
-import com.ecoShop.security.dto.UserDetailsDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,15 +16,15 @@ public class JwtUtil {
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1小时
 
     // 生成JWT Token
-    public String generateToken(UserDetailsDto userDetails) {
+    public static String generateToken(Map<String,Object> map) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails);
+        return createToken(claims, map);
     }
 
-    private String createToken(Map<String, Object> claims, UserDetailsDto userDetails) {
+    private static String createToken(Map<String, Object> claims, Map<String,Object> map) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(JSON.toJSONString(userDetails))
+                .setSubject(JSON.toJSONString(map))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
@@ -35,19 +32,13 @@ public class JwtUtil {
     }
 
     // 验证Token
-    public Boolean validateToken(String token, UserDetailsDto userDetails) {
-        String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    public Claims validateToken(String token) {
-        Claims claims = extractAllClaims(token);
-        claims.getSubject();
-        return claims;
+    public Boolean validateToken(String token) {
+        Date expiration = extractExpiration(token);
+        return !expiration.before(new Date());
     }
 
     // 提取用户名
-    public String extractUsername(String token) {
+    public static String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -56,12 +47,14 @@ public class JwtUtil {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+
+    private static  <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         Claims claims = extractAllClaims(token);
+        System.out.println(claims.getSubject());;
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    private static Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
