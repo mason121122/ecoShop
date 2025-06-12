@@ -1,6 +1,6 @@
 package com.ecoShop.security.config;
 
-import com.ecoShop.security.filter.JwtRequestFilter;
+//import com.ecoShop.security.filter.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailService;
 
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+//    @Autowired
+//    private JwtRequestFilter jwtRequestFilter;
 
 
     @Autowired
@@ -45,12 +45,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         // 禁用 CSRF 保护，因为我们使用 JWT
-        httpSecurity
-                .csrf().disable()
-                // 允许访问 /authenticate 和 /register 端点
-                .authorizeRequests().antMatchers(
-                        "/",
-                        "/api/login",
+//        httpSecurity
+//                .csrf().disable()
+//
+//                // 允许访问 /authenticate 和 /register 端点
+//                .authorizeRequests()
+//                .antMatchers(
+//                        "/",
+//                        "/api/login",
+//                        "/authenticate",
+//                        "/register",
+//                        "/actuator/**",
+//                        "/swagger-ui.html",
+//                        "/swagger-ui/**",
+//                        "/v2/api-docs/**",
+//                        "/swagger-resources/**",
+//                        "/webjars/**")
+//                .permitAll()
+//                // 其他所有请求需要认证
+//                .anyRequest().authenticated()
+////                .antMatchers("/api/**").authenticated()
+//                .and()
+//                // 禁用 session 管理
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        httpSecurity.csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/",
+                        "/security/login",
                         "/authenticate",
                         "/register",
                         "/actuator/**",
@@ -58,14 +80,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui/**",
                         "/v2/api-docs/**",
                         "/swagger-resources/**",
-                        "/webjars/**")
-                .permitAll()
-                // 其他所有请求需要认证
+                        "/webjars/**").permitAll()
+                .antMatchers("/security/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
-//                .antMatchers("/api/**").authenticated()
                 .and()
-                // 禁用 session 管理
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .formLogin()
+                .loginPage("/security/login")
+                .loginPage("/security/loginpost")
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
 
 
         // 添加 JWT 过滤器

@@ -13,6 +13,11 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.ecoShop</groupId>
+            <artifactId>common</artifactId>
+        </dependency>
+
         <!-- Spring Cloud Gateway -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -25,10 +30,27 @@
 <!--            <artifactId>spring-boot-starter-webflux</artifactId>-->
 <!--        </dependency>-->
 
-        <!-- Spring Cloud LoadBalancer 依赖 -->
+        <!-- 熔断机制：使用 Resilience4j 替代 Hystrix -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+        </dependency>
+        <!-- 负载均衡：使用 Spring Cloud LoadBalancer 替代 Ribbon -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
         </dependency>
 
     </dependencies>

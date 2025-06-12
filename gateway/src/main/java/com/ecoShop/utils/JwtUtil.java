@@ -1,4 +1,4 @@
-package com.ecoShop.security.utils;
+package com.ecoShop.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

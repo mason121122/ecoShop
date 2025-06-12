@@ -5,10 +5,13 @@ import com.ecoshop.common.utils.ClazzConverter;
 import com.ecoshop.dao.mapper.sys.UserMapper;
 import com.ecoshop.dao.po.sys.UserPo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
@@ -24,6 +27,5 @@ public class UserDetailServiceImpl implements UserDetailsService {
         }
         return userDetailsDto;
     }
-
 
 }
