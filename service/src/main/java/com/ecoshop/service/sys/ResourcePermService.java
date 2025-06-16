@@ -1,8 +1,6 @@
 package com.ecoshop.service.sys;
 
 import com.ecoshop.bo.sys.ResourceBo;
-import com.ecoshop.bo.sys.RouteBo;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -28,33 +26,5 @@ public interface ResourcePermService {
 
     boolean delResource(Long id);
 
-
-   //==================路由配置建议使用dml脚本添加，不建议作成一个web功能，这里方便开发测试就直接做成一个功能=================================
-    /**
-     * 路由
-     * @return
-     */
-    boolean addRoute(RouteBo routeBo);
-
-    /**
-     * 编辑路由
-     * @return
-     */
-    boolean editRoute(RouteBo routeBo);
-
-    /**
-     * 删除路由
-     * @return
-     */
-    boolean delRoute(Long id);
-
-    /**
-     * 分页查询路由
-     * @param routeBo
-     * @param pageIndex
-     * @param pageSize
-     * @return
-     */
-    List<RouteBo> pageQueryRoute(RouteBo routeBo,Integer pageIndex,Integer pageSize);
 
 }

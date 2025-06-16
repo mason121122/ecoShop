@@ -1,6 +1,5 @@
 package com.ecoshop.dao.mapper.sys;
 
-import com.ecoshop.dao.po.sys.RolePermissionPo;
 import com.ecoshop.dao.po.sys.RolePo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

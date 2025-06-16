@@ -47,6 +47,8 @@ public enum ResultEnum {
 
     USERNAME_REPETITION(5016,"USERNAME_REPETITION","用户名已存在"),
 
+    FILE_IS_NULL(5017,"FILE_IS_NULL","文件为空"),
+
 
     ;
 

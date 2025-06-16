@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -81,8 +82,11 @@ public class IdentityController {
 
     @ApiOperation(value = "创建租户", notes = "创建租户")
     @RequestMapping(value = "/addTenant", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ReturnResult<?> addTenant(@RequestBody @Valid TenantReqVo tenantReqVo) {
-        if (identityService.addTenant(tenantReqVo)) {
+    public ReturnResult<?> addTenant(@RequestBody @Valid TenantReqVo tenantReqVo, MultipartFile file) {
+        if (file.isEmpty()) {
+            return new ReturnResult<>(ResultEnum.FILE_IS_NULL.getCode(), ResultEnum.FILE_IS_NULL.getDesc());
+        }
+        if (identityService.addTenant(tenantReqVo,file)) {
             return new ReturnResult<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getDesc());
         } else {
             return new ReturnResult<>(ResultEnum.ADD_FAIL.getCode(), ResultEnum.ADD_FAIL.getDesc());

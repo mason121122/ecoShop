@@ -1,4 +1,4 @@
-package com.ecoshop.bo.sys;
+package com.ecoshop.vo.sys.request;
 
 
 import lombok.Data;
@@ -6,11 +6,11 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * 数据权限规则表
- * @TableName sys_data_rule
+ * 角色-权限关联表
+ * @TableName sys_role_permission
  */
 @Data
-public class DataRuleBo {
+public class RoleResourceReqVo {
     /**
      * 主键ID
      */
@@ -22,29 +22,14 @@ public class DataRuleBo {
     private Long tenantId;
 
     /**
-     * 规则名称
+     * 角色ID
      */
-    private String name;
+    private Long roleId;
 
     /**
-     * 规则编码
+     * 资源ID
      */
-    private String code;
-
-    /**
-     * 规则描述
-     */
-    private String description;
-
-    /**
-     * 规则条件表达式
-     */
-    private String ruleCondition;
-
-    /**
-     * 状态(1:正常,0:禁用)
-     */
-    private Integer status;
+    private Long resourceId;
 
     /**
      * 版本号(用于乐观锁)

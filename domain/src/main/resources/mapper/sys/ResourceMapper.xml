@@ -152,7 +152,7 @@
         </where>
     </select>
 
-    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RoleResourcePo">
         insert into sys_resource
         <trim prefix="(" suffix=")" suffixOverrides=",">
             tenant_id,parent_id,
@@ -170,7 +170,7 @@
         </trim>
     </insert>
 
-    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RoleResourcePo">
         update sys_resource
         <set>
             <if test="null != tenantId">

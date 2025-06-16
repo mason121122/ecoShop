@@ -3,12 +3,11 @@ package com.ecoshop.service.sys;
 
 import com.ecoshop.dao.po.sys.UserPo;
 import com.ecoshop.page.PageResponse;
-import com.ecoshop.vo.sys.request.OrganizationReqVo;
 import com.ecoshop.vo.sys.request.TenantReqVo;
 import com.ecoshop.vo.sys.request.UserReqVo;
-import com.ecoshop.vo.sys.response.OrganizationRespVo;
 import com.ecoshop.vo.sys.response.TenantRespVo;
 import com.ecoshop.vo.sys.response.UserRespVo;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -62,7 +61,7 @@ public interface IdentityService {
      * @param tenantReqVo
      * @return
      */
-    boolean addTenant(TenantReqVo tenantReqVo);
+    boolean addTenant(TenantReqVo tenantReqVo, MultipartFile file);
 
     boolean editTenant(TenantReqVo tenantReqVo);
 
@@ -92,23 +91,6 @@ public interface IdentityService {
 
 
 
-    /**
-     * 新增机构
-     * @param organizationBo
-     * @return
-     */
-    boolean addOrganization(OrganizationReqVo organizationBo);
-
-    boolean editOrganization(OrganizationReqVo organizationBo);
-
-    boolean delOrganization(OrganizationReqVo organizationBo);
-
-    /**
-     * 分页查询机构
-     * @param organizationReqVo
-     * @return
-     */
-    PageResponse<OrganizationRespVo> pageQueryOrganization(OrganizationReqVo organizationReqVo);
 
 //    /**
 //     * 新增岗位

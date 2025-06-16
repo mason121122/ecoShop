@@ -2,13 +2,13 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ecoshop.dao.mapper.sys.RolePermissionMapper">
+<mapper namespace="com.ecoshop.dao.mapper.sys.RoleResourceMapper">
 
-    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.RolePermissionPo">
+    <resultMap id="BaseResultMap" type="com.ecoshop.dao.po.sys.RoleResourcePo">
         <id property="id" column="id" jdbcType="BIGINT"/>
         <result property="tenantId" column="tenant_id" jdbcType="BIGINT"/>
         <result property="roleId" column="role_id" jdbcType="BIGINT"/>
-        <result property="permissionId" column="permission_id" jdbcType="BIGINT"/>
+        <result property="resourceId" column="resource_id" jdbcType="BIGINT"/>
         <result property="version" column="version" jdbcType="INTEGER"/>
         <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
         <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
@@ -16,7 +16,7 @@
 
     <sql id="Base_Column_List">
         id,tenant_id,role_id,
-        permission_id,version
+        resource_id,version
     </sql>
 
     <select id="find" resultMap="BaseResultMap">
@@ -28,8 +28,8 @@
             <if test="null != roleId">
                 and role_id = #{roleId}
             </if>
-            <if test="null != permissionId">
-                and permission_id = #{permissionId}
+            <if test="null != resourceId">
+                and resource_id = #{resourceId}
             </if>
         </where>
     </select>
@@ -46,35 +46,35 @@
         from sys_role_permission
     </select>
 
-    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+    <insert id="add" parameterType="com.ecoshop.dao.po.sys.RoleResourcePo">
         insert into sys_role_permission
         <trim prefix="(" suffix=")" suffixOverrides=",">
             tenant_id,
             role_id,
-            permission_id
+            resource_id
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            #{tenantId},
-            #{roleId},
-            #{permissionId}
+            #{roleResourcePo.tenantId},
+            #{roleResourcePo.roleId},
+            #{roleResourcePo.resourceId}
         </trim>
     </insert>
 
-    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RolePermissionPo">
+    <update id="edit" parameterType="com.ecoshop.dao.po.sys.RoleResourcePo">
         update sys_role_permission
         <set>
-            <if test="tenantId != null">
-                tenant_id = #{tenantId},
+            <if test="roleResourcePo.tenantId != null">
+                tenant_id = #{roleResourcePo.tenantId},
             </if>
-            <if test="permissionId != null">
-                permission_id = #{permissionId},
+            <if test="roleResourcePo.resourceId != null">
+                resource_id = #{roleResourcePo.resourceId},
             </if>
-            <if test="roleId != null">
-                role_id = #{roleId},
+            <if test="roleResourcePo.roleId != null">
+                role_id = #{roleResourcePo.roleId},
             </if>
-            <if test="version != null">
-                version = #{version} + 1
+            <if test="roleResourcePo.version != null">
+                version = #{roleResourcePo.version} + 1
             </if>
         </set>
         WHERE id = #{id} and version = #{version}

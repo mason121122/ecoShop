@@ -1,15 +1,16 @@
-package com.ecoshop.dao.po.sys;
+package com.ecoshop.bo.sys;
 
 
-import java.util.Date;
 import lombok.Data;
 
+import java.util.Date;
+
 /**
- * 角色-数据规则关联表
- * @TableName sys_role_data_rule
+ * 角色-权限关联表
+ * @TableName sys_role_permission
  */
 @Data
-public class RoleDataRulePo {
+public class RoleResourceBo {
     /**
      * 主键ID
      */
@@ -26,9 +27,9 @@ public class RoleDataRulePo {
     private Long roleId;
 
     /**
-     * 数据规则ID
+     * 资源ID
      */
-    private Long dataRuleId;
+    private Long resourceId;
 
     /**
      * 版本号(用于乐观锁)

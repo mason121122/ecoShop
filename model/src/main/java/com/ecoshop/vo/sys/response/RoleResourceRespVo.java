@@ -6,11 +6,11 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * 资源-路由关联表
- * @TableName sys_resource_route
+ * 角色-权限关联表
+ * @TableName sys_role_permission
  */
 @Data
-public class ResourceRouteRespVo {
+public class RoleResourceRespVo {
     /**
      * 主键ID
      */
@@ -22,14 +22,14 @@ public class ResourceRouteRespVo {
     private Long tenantId;
 
     /**
+     * 角色ID
+     */
+    private Long roleId;
+
+    /**
      * 资源ID
      */
     private Long resourceId;
-
-    /**
-     * 路由ID
-     */
-    private Long routeId;
 
     /**
      * 版本号(用于乐观锁)

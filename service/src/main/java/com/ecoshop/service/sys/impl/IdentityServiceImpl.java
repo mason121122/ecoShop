@@ -7,16 +7,21 @@ import com.ecoshop.dao.po.sys.TenantPo;
 import com.ecoshop.dao.po.sys.UserPo;
 import com.ecoshop.page.PageResponse;
 import com.ecoshop.service.sys.IdentityService;
-import com.ecoshop.vo.sys.request.OrganizationReqVo;
 import com.ecoshop.vo.sys.request.TenantReqVo;
 import com.ecoshop.vo.sys.request.UserReqVo;
-import com.ecoshop.vo.sys.response.OrganizationRespVo;
 import com.ecoshop.vo.sys.response.TenantRespVo;
 import com.ecoshop.vo.sys.response.UserRespVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 
 @Service
@@ -75,8 +80,31 @@ public class IdentityServiceImpl implements IdentityService {
 
     //===================================================租户管理=============================================================================================================
     @Override
-    public boolean addTenant(TenantReqVo tenantReqVo) {
-        return tenantMapper.add(ClazzConverter.converterClass(tenantReqVo, TenantPo.class)) > 0;
+    @Transactional(rollbackFor = Exception.class)
+    public boolean addTenant(TenantReqVo tenantReqVo, MultipartFile file) {
+        try {
+            // 获取项目根目录并构建上传路径
+            String rootPath = System.getProperty("user.dir");
+            Path uploadDir = Paths.get(rootPath, "tenant");
+
+            // 创建上传文件夹（如果不存在）
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+
+            // 构建完整文件路径（添加时间戳避免文件名冲突）
+            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            Path filePath = uploadDir.resolve(fileName);
+
+            // 使用try-with-resources确保流关闭
+            try (OutputStream os = Files.newOutputStream(filePath)) {
+                os.write(file.getBytes());
+            }
+            tenantMapper.add(ClazzConverter.converterClass(tenantReqVo, TenantPo.class));
+        } catch (IOException | SecurityException e) {
+            throw new RuntimeException("文件上传异常:",e);
+        }
+        return true;
     }
 
     @Override
@@ -107,23 +135,4 @@ public class IdentityServiceImpl implements IdentityService {
         return result;
     }
 
-    @Override
-    public boolean addOrganization(OrganizationReqVo organizationBo) {
-        return false;
-    }
-
-    @Override
-    public boolean editOrganization(OrganizationReqVo organizationBo) {
-        return false;
-    }
-
-    @Override
-    public boolean delOrganization(OrganizationReqVo organizationBo) {
-        return false;
-    }
-
-    @Override
-    public PageResponse<OrganizationRespVo> pageQueryOrganization(OrganizationReqVo organizationReqVo) {
-        return null;
-    }
 }

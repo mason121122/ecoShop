@@ -1,16 +1,15 @@
-package com.ecoshop.vo.sys.request;
+package com.ecoshop.dao.po.sys;
 
-
-import lombok.Data;
 
 import java.util.Date;
+import lombok.Data;
 
 /**
  * 角色-权限关联表
  * @TableName sys_role_permission
  */
 @Data
-public class RolePermissionReqVo {
+public class RoleResourcePo {
     /**
      * 主键ID
      */
@@ -27,9 +26,9 @@ public class RolePermissionReqVo {
     private Long roleId;
 
     /**
-     * 权限ID
+     * 资源ID
      */
-    private Long permissionId;
+    private Long resourceId;
 
     /**
      * 版本号(用于乐观锁)

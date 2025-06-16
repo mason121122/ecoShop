@@ -5,6 +5,10 @@ import com.ecoShop.security.dto.UserDetailsDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -35,37 +39,57 @@ public class JwtUtil {
     }
 
     // 验证Token
-    public Boolean validateToken(String token, UserDetailsDto userDetails) {
-        String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    public Boolean validateToken(String token, UserDetailsDto userDetails) throws ExpiredJwtException, MalformedJwtException, SignatureException, UnsupportedJwtException {
+        try {
+            String username = extractUsername(token);
+            return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException e) {
+            throw e;
+        }
     }
 
-    public Claims validateToken(String token) {
-        Claims claims = extractAllClaims(token);
-        claims.getSubject();
-        return claims;
+    public Claims validateToken(String token) throws ExpiredJwtException, MalformedJwtException, SignatureException, UnsupportedJwtException {
+        try {
+            Claims claims = extractAllClaims(token);
+            claims.getSubject();
+            return claims;
+        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException e) {
+            throw e;
+        }
     }
 
     // 提取用户名
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+    public String extractUsername(String token) throws ExpiredJwtException, MalformedJwtException, SignatureException, UnsupportedJwtException {
+        try {
+            return extractClaim(token, Claims::getSubject);
+        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException e) {
+            throw e;
+        }
     }
 
     // 提取过期时间
-    public Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
+    public Date extractExpiration(String token) throws ExpiredJwtException, MalformedJwtException, SignatureException, UnsupportedJwtException {
+        try {
+            return extractClaim(token, Claims::getExpiration);
+        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException e) {
+            throw e;
+        }
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) throws ExpiredJwtException, MalformedJwtException, SignatureException, UnsupportedJwtException {
         Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+    private Claims extractAllClaims(String token) throws ExpiredJwtException, MalformedJwtException, SignatureException, UnsupportedJwtException {
+        try {
+            return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException | MalformedJwtException | SignatureException | UnsupportedJwtException e) {
+            throw e;
+        }
     }
 
-    private Boolean isTokenExpired(String token) {
+    private Boolean isTokenExpired(String token) throws ExpiredJwtException, MalformedJwtException, SignatureException, UnsupportedJwtException {
         return extractExpiration(token).before(new Date());
     }
 }

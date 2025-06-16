@@ -1,9 +1,6 @@
 package com.ecoShop.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-//import org.springframework.security.core.userdetails.UserDetails;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -35,8 +32,20 @@ public class JwtUtil {
 
     // 验证Token
     public Boolean validateToken(String token) {
-        Date expiration = extractExpiration(token);
-        return !expiration.before(new Date());
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            return false;
+        } catch (UnsupportedJwtException e) {
+            return false;
+        } catch (MalformedJwtException e) {
+            return false;
+        } catch (SignatureException e) {
+            return false;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+        return true;
     }
 
     // 提取用户名
